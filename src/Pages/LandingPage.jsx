@@ -2,7 +2,7 @@ import React from 'react'
 import NavBare from '../Components/NavBar'
 import Footer from '../Components/Footer';
 
-const HeroSection = () => {
+const Hero = () => {
     return (
         <section className="hero" id="home">
             <div className="hero-field"></div>
@@ -50,25 +50,46 @@ const HeroSection = () => {
 }
 
 const Ticker = () => {
+    const matches = [
+        {
+            round: "Matchday 1",
+            date: "2026-06-11",
+            time: "13:00 UTC-6",
+            team1: "Mexico",
+            team2: "South Africa",
+            group: "Group A",
+            ground: "Mexico City",
+        },
+        {
+            round: "Matchday 1",
+            date: "2026-06-11",
+            time: "20:00 UTC-6",
+            team1: "South Korea",
+            team2: "Czech Republic",
+            group: "Group A",
+            ground: "Guadalajara (Zapopan)",
+        },
+        {
+            round: "Matchday 8",
+            date: "2026-06-18",
+            time: "12:00 UTC-4",
+            team1: "Czech Republic",
+            team2: "South Africa",
+            group: "Group A",
+            ground: "Atlanta",
+        },
+    ]
+
     return (
         <div className="ticker" aria-hidden="true">
             <div className="ticker-inner" id="tickerInner">
-                <div className="ticker-item"><div className="ticker-dot"></div>🔴 LIVE: Brazil 2–1 Argentina · 72'</div>
-                <div className="ticker-item"><div className="ticker-dot"></div>FINAL: Spain 3–0 Croatia</div>
-                <div className="ticker-item"><div className="ticker-dot"></div>France vs England · Tomorrow 20:00 ET</div>
-                <div className="ticker-item"><div className="ticker-dot"></div>Portugal qualifies for Round of 16</div>
-                <div className="ticker-item"><div className="ticker-dot"></div>Germany vs Japan · June 12 · 17:00 ET</div>
-                <div className="ticker-item"><div className="ticker-dot"></div>Morocco shock Netherlands 2–1</div>
-                <div className="ticker-item"><div className="ticker-dot"></div>USA 1–1 Mexico · Halftime</div>
                 <div className="ticker-item"><div className="ticker-dot"></div>🏆 World Cup 2026 · 48 Nations · 3 Countries</div>
-                <div className="ticker-item"><div className="ticker-dot"></div>🔴 LIVE: Brazil 2–1 Argentina · 72'</div>
-                <div className="ticker-item"><div className="ticker-dot"></div>FINAL: Spain 3–0 Croatia</div>
-                <div className="ticker-item"><div className="ticker-dot"></div>France vs England · Tomorrow 20:00 ET</div>
-                <div className="ticker-item"><div className="ticker-dot"></div>Portugal qualifies for Round of 16</div>
-                <div className="ticker-item"><div className="ticker-dot"></div>Germany vs Japan · June 12 · 17:00 ET</div>
-                <div className="ticker-item"><div className="ticker-dot"></div>Morocco shock Netherlands 2–1</div>
-                <div className="ticker-item"><div className="ticker-dot"></div>USA 1–1 Mexico · Halftime</div>
-                <div className="ticker-item"><div className="ticker-dot"></div>🏆 World Cup 2026 · 48 Nations · 3 Countries</div>
+                {matches.map((ele, key) => {
+                    console.log(ele);
+                    return (
+                        <div key={key} className="ticker-item"><div className="ticker-dot"></div>{ele.team1} vs {ele.team2} · {ele.date} {ele.time}</div>
+                    );
+                })}
             </div>
         </div>
     );
@@ -131,6 +152,117 @@ const Hosts = () => {
 }
 
 const Groups = () => {
+    const groups = [
+        {
+          name: "Group A",
+          teams: [
+            "Mexico",
+            "South Africa",
+            "South Korea",
+            "Czech Republic"
+          ]
+        },
+        {
+          name: "Group B",
+          teams: [
+            "Canada",
+            "Bosnia & Herzegovina",
+            "Qatar",
+            "Switzerland"
+          ]
+        },
+        {
+          name: "Group C",
+          teams: [
+            "Brazil",
+            "Morocco",
+            "Haiti",
+            "Scotland"
+          ]
+        },
+        {
+          name: "Group D",
+          teams: [
+            "USA",
+            "Paraguay",
+            "Australia",
+            "Turkey"
+          ]
+        },
+        {
+          name: "Group E",
+          teams: [
+            "Germany",
+            "Curaçao",
+            "Ivory Coast",
+            "Ecuador"
+          ]
+        },
+        {
+          name: "Group F",
+          teams: [
+            "Netherlands",
+            "Japan",
+            "Sweden",
+            "Tunisia"
+          ]
+        },
+        {
+          name: "Group G",
+          teams: [
+            "Belgium",
+            "Egypt",
+            "Iran",
+            "New Zealand"
+          ]
+        },
+        {
+          name: "Group H",
+          teams: [
+            "Spain",
+            "Cape Verde",
+            "Saudi Arabia",
+            "Uruguay"
+          ]
+        },
+        {
+          name: "Group I",
+          teams: [
+            "France",
+            "Senegal",
+            "Iraq",
+            "Norway"
+          ]
+        },
+        {
+          name: "Group J",
+          teams: [
+            "Argentina",
+            "Algeria",
+            "Austria",
+            "Jordan"
+          ]
+        },
+        {
+          name: "Group K",
+          teams: [
+            "Portugal",
+            "DR Congo",
+            "Uzbekistan",
+            "Colombia"
+          ]
+        },
+        {
+          name: "Group L",
+          teams: [
+            "England",
+            "Croatia",
+            "Ghana",
+            "Panama"
+          ]
+        }
+    ]
+
     return (
         <section id="groups">
             <div className="container">
@@ -144,122 +276,31 @@ const Groups = () => {
                 </div>
             
                 <div className="groups-grid">
-            
-                <div className="group-card">
-                    <div className="group-header">
-                    <div className="group-label">Group <span>A</span></div>
-                    </div>
-                    <table className="group-table">
-                    <thead><tr>
-                        <th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th>
-                    </tr></thead>
-                    <tbody>
-                        <tr>
-                        <td><div className="pos-dot qualify"></div><span className="flag-sm">🇺🇸</span><span className="team-name-cell">USA</span></td>
-                        <td>2</td><td>1</td><td>1</td><td>0</td><td>+2</td><td className="pts-cell">4</td>
-                        </tr>
-                        <tr>
-                        <td><div className="pos-dot qualify"></div><span className="flag-sm">🇲🇽</span><span className="team-name-cell">Mexico</span></td>
-                        <td>2</td><td>1</td><td>1</td><td>0</td><td>+1</td><td className="pts-cell">4</td>
-                        </tr>
-                        <tr>
-                        <td><div className="pos-dot out"></div><span className="flag-sm">🇨🇦</span><span className="team-name-cell">Canada</span></td>
-                        <td>2</td><td>0</td><td>1</td><td>1</td><td>−1</td><td className="pts-cell">1</td>
-                        </tr>
-                        <tr>
-                        <td><div className="pos-dot out"></div><span className="flag-sm">🇳🇿</span><span className="team-name-cell">New Zealand</span></td>
-                        <td>2</td><td>0</td><td>1</td><td>1</td><td>−2</td><td className="pts-cell">1</td>
-                        </tr>
-                    </tbody>
-                    </table>
-                </div>
-            
-                <div className="group-card">
-                    <div className="group-header">
-                    <div className="group-label">Group <span>B</span></div>
-                    </div>
-                    <table className="group-table">
-                    <thead><tr>
-                        <th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th>
-                    </tr></thead>
-                    <tbody>
-                        <tr>
-                        <td><div className="pos-dot qualify"></div><span className="flag-sm">🇫🇷</span><span className="team-name-cell">France</span></td>
-                        <td>2</td><td>2</td><td>0</td><td>0</td><td>+4</td><td className="pts-cell">6</td>
-                        </tr>
-                        <tr>
-                        <td><div className="pos-dot qualify"></div><span className="flag-sm">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span><span className="team-name-cell">England</span></td>
-                        <td>2</td><td>1</td><td>0</td><td>1</td><td>+1</td><td className="pts-cell">3</td>
-                        </tr>
-                        <tr>
-                        <td><div className="pos-dot out"></div><span className="flag-sm">🇵🇹</span><span className="team-name-cell">Portugal</span></td>
-                        <td>2</td><td>1</td><td>0</td><td>1</td><td>0</td><td className="pts-cell">3</td>
-                        </tr>
-                        <tr>
-                        <td><div className="pos-dot out"></div><span className="flag-sm">🇸🇦</span><span className="team-name-cell">Saudi Arabia</span></td>
-                        <td>2</td><td>0</td><td>0</td><td>2</td><td>−5</td><td className="pts-cell">0</td>
-                        </tr>
-                    </tbody>
-                    </table>
-                </div>
-            
-                <div className="group-card">
-                    <div className="group-header">
-                    <div className="group-label">Group <span>C</span></div>
-                    </div>
-                    <table className="group-table">
-                    <thead><tr>
-                        <th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th>
-                    </tr></thead>
-                    <tbody>
-                        <tr>
-                        <td><div className="pos-dot qualify"></div><span className="flag-sm">🇧🇷</span><span className="team-name-cell">Brazil</span></td>
-                        <td>2</td><td>2</td><td>0</td><td>0</td><td>+3</td><td className="pts-cell">6</td>
-                        </tr>
-                        <tr>
-                        <td><div className="pos-dot qualify"></div><span className="flag-sm">🇦🇷</span><span className="team-name-cell">Argentina</span></td>
-                        <td>2</td><td>1</td><td>0</td><td>1</td><td>+1</td><td className="pts-cell">3</td>
-                        </tr>
-                        <tr>
-                        <td><div className="pos-dot out"></div><span className="flag-sm">🇨🇴</span><span className="team-name-cell">Colombia</span></td>
-                        <td>2</td><td>1</td><td>0</td><td>1</td><td>−1</td><td className="pts-cell">3</td>
-                        </tr>
-                        <tr>
-                        <td><div className="pos-dot out"></div><span className="flag-sm">🇳🇬</span><span className="team-name-cell">Nigeria</span></td>
-                        <td>2</td><td>0</td><td>0</td><td>2</td><td>−3</td><td className="pts-cell">0</td>
-                        </tr>
-                    </tbody>
-                    </table>
-                </div>
-            
-                <div className="group-card">
-                    <div className="group-header">
-                    <div className="group-label">Group <span>E</span></div>
-                    </div>
-                    <table className="group-table">
-                    <thead><tr>
-                        <th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th>
-                    </tr></thead>
-                    <tbody>
-                        <tr>
-                        <td><div className="pos-dot qualify"></div><span className="flag-sm">🇩🇪</span><span className="team-name-cell">Germany</span></td>
-                        <td>2</td><td>1</td><td>1</td><td>0</td><td>+2</td><td className="pts-cell">4</td>
-                        </tr>
-                        <tr>
-                        <td><div className="pos-dot qualify"></div><span className="flag-sm">🇪🇸</span><span className="team-name-cell">Spain</span></td>
-                        <td>2</td><td>1</td><td>0</td><td>1</td><td>+3</td><td className="pts-cell">3</td>
-                        </tr>
-                        <tr>
-                        <td><div className="pos-dot out"></div><span className="flag-sm">🇯🇵</span><span className="team-name-cell">Japan</span></td>
-                        <td>2</td><td>1</td><td>0</td><td>1</td><td>0</td><td className="pts-cell">3</td>
-                        </tr>
-                        <tr>
-                        <td><div className="pos-dot out"></div><span className="flag-sm">🇭🇷</span><span className="team-name-cell">Croatia</span></td>
-                        <td>2</td><td>0</td><td>1</td><td>1</td><td>−5</td><td className="pts-cell">1</td>
-                        </tr>
-                    </tbody>
-                    </table>
-                </div>
+
+                    {groups.map((ele, key) => {
+                        return (
+                            <div key={key} className="group-card">
+                                <div className="group-header">
+                                <div className="group-label">Group <span>{ele.name.split(" ")[1]}</span></div>
+                                </div>
+                                <table className="group-table">
+                                    <thead><tr>
+                                        <th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th>
+                                    </tr></thead>
+                                    <tbody>
+                                        {ele.teams.map((ele, key) => {
+                                            return (
+                                                <tr key={key}>
+                                                    <td><div className="pos-dot qualify"></div><span className="flag-sm">🇺🇸</span><span className="team-name-cell">{ele}</span></td>
+                                                    <td>2</td><td>1</td><td>1</td><td>0</td><td>+2</td><td className="pts-cell">4</td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
+                        );
+                    })}
             
                 </div>
             </div>
@@ -377,13 +418,14 @@ const Stats = () => {
         </section>
     );
 }
+
 export default function LandingPage() {
     return (
         <>
             <NavBare />
     
             {/* <!-- HERO --> */}
-            <HeroSection />
+            <Hero />
     
             {/* <!-- TICKER --> */}
             <Ticker />
