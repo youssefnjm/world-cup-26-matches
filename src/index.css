@@ -1,1 +1,1760 @@
 @import "tailwindcss";
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FIFA World Cup 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #D62828;
+    --red-dark: #A01010;
+    --blue: #1565C0;
+    --blue-dark: #0D47A1;
+    --gold: #F4A500;
+    --gold-dark: #D48800;
+    --white: #FFFFFF;
+    --off-white: #F5F4F0;
+    --ink: #0E0E0E;
+    --ink-soft: #2C2C2A;
+    --muted: #6B6B68;
+    --border: rgba(0,0,0,0.1);
+    --display: 'Barlow Condensed', sans-serif;
+    --body: 'Barlow', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--body);
+    background: var(--off-white);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3rem;
+    height: 64px;
+    background: rgba(14,14,14,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .nav-logo {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: 0.02em;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--gold); }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--body);
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-cta {
+    background: var(--red);
+    color: var(--white) !important;
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-weight: 600 !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--red-dark) !important; color: var(--white) !important; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--ink);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 100px 2rem 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-field {
+    position: absolute;
+    inset: 0;
+    opacity: 0.06;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.5) 39px, rgba(255,255,255,0.5) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.5) 39px, rgba(255,255,255,0.5) 40px);
+    background-size: 40px 40px;
+  }
+
+  .hero-arc {
+    position: absolute;
+    bottom: -120px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 700px;
+    height: 700px;
+    border: 2px solid rgba(244, 165, 0, 0.12);
+    border-radius: 50%;
+  }
+  .hero-arc2 {
+    position: absolute;
+    bottom: -240px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1000px;
+    height: 1000px;
+    border: 2px solid rgba(214, 40, 40, 0.08);
+    border-radius: 50%;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--body);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  .hero-eyebrow::before,
+  .hero-eyebrow::after {
+    content: '';
+    display: inline-block;
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+    vertical-align: middle;
+    opacity: 0.6;
+  }
+  .hero-eyebrow::before { margin-right: 12px; }
+  .hero-eyebrow::after { margin-left: 12px; }
+
+  .hero-headline {
+    font-family: var(--display);
+    font-size: clamp(64px, 12vw, 120px);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    position: relative;
+  }
+
+  .hero-headline .year {
+    display: block;
+    color: var(--gold);
+    font-size: clamp(80px, 15vw, 150px);
+  }
+
+  .hero-subtitle {
+    font-size: 18px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.6);
+    max-width: 560px;
+    line-height: 1.6;
+    margin: 2rem auto 2.5rem;
+    position: relative;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    position: relative;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--red);
+    color: var(--white);
+    padding: 16px 36px;
+    border-radius: 4px;
+    font-family: var(--display);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--red-dark); transform: translateY(-1px); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--white);
+    padding: 16px 36px;
+    border-radius: 4px;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    font-family: var(--display);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--gold); background: rgba(244,165,0,0.08); color: var(--white); }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 4rem;
+    position: relative;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 2.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero-stat-item { text-align: center; }
+  .hero-stat-num {
+    font-family: var(--display);
+    font-size: 40px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1;
+  }
+  .hero-stat-num span { color: var(--gold); }
+  .hero-stat-label {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-top: 4px;
+  }
+
+  /* ── TICKER ── */
+  .ticker {
+    background: var(--red);
+    overflow: hidden;
+    height: 40px;
+    display: flex;
+    align-items: center;
+  }
+  .ticker-inner {
+    display: flex;
+    gap: 4rem;
+    animation: scroll-ticker 30s linear infinite;
+    white-space: nowrap;
+    align-items: center;
+  }
+  .ticker-item {
+    font-family: var(--body);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--white);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ticker-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    flex-shrink: 0;
+  }
+  @keyframes scroll-ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ── SECTION WRAPPER ── */
+  section { padding: 80px 0; }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .section-eyebrow {
+    font-family: var(--body);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-family: var(--display);
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--ink);
+    line-height: 0.95;
+    margin-bottom: 1rem;
+  }
+
+  .section-subtitle {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.6;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .view-all {
+    font-family: var(--body);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--red);
+    text-decoration: none;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.2s;
+  }
+  .view-all:hover { gap: 10px; }
+
+  /* ── NEWS ── */
+  .news-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5px;
+    background: var(--border);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .news-main {
+    background: var(--white);
+    padding: 2rem;
+    cursor: pointer;
+    transition: background 0.15s;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .news-main:hover { background: #fafaf8; }
+
+  .news-side {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5px;
+    background: var(--border);
+  }
+
+  .news-card {
+    background: var(--white);
+    padding: 1.25rem 1.5rem;
+    cursor: pointer;
+    transition: background 0.15s;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .news-card:hover { background: #fafaf8; }
+
+  .news-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 3px;
+    background: rgba(214,40,40,0.1);
+    color: var(--red-dark);
+    align-self: flex-start;
+  }
+
+  .news-tag.blue {
+    background: rgba(21,101,192,0.1);
+    color: var(--blue-dark);
+  }
+  .news-tag.gold {
+    background: rgba(244,165,0,0.15);
+    color: #9A6C00;
+  }
+
+  .news-title-main {
+    font-family: var(--display);
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+
+  .news-title {
+    font-family: var(--display);
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+
+  .news-excerpt {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .news-meta {
+    font-size: 12px;
+    color: #9a9a96;
+    font-weight: 500;
+  }
+
+  /* ── SCHEDULE ── */
+  .schedule-section { background: var(--ink); }
+  .schedule-section .section-title { color: var(--white); }
+  .schedule-section .section-eyebrow { color: var(--gold); }
+  .schedule-section .section-subtitle { color: rgba(255,255,255,0.5); }
+
+  .match-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    overflow-x: auto;
+  }
+  .match-tab {
+    font-family: var(--body);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    padding: 12px 24px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    white-space: nowrap;
+    transition: color 0.15s;
+  }
+  .match-tab.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+  .match-tab:hover:not(.active) { color: rgba(255,255,255,0.7); }
+
+  .matches-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .match-row {
+    background: rgba(255,255,255,0.03);
+    display: grid;
+    grid-template-columns: 160px 1fr auto 1fr 120px;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    gap: 1rem;
+    transition: background 0.15s;
+    cursor: pointer;
+  }
+  .match-row:hover { background: rgba(255,255,255,0.07); }
+
+  .match-date-col {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  .match-date-col strong {
+    display: block;
+    color: rgba(255,255,255,0.75);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .match-team {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--display);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  .match-team.right {
+    flex-direction: row-reverse;
+    text-align: right;
+  }
+
+  .team-flag {
+    width: 32px;
+    height: 22px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .match-score {
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .score-display {
+    font-family: var(--display);
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: 0.04em;
+  }
+
+  .score-vs {
+    font-family: var(--display);
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.1em;
+  }
+
+  .match-status {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 3px;
+    text-align: center;
+  }
+
+  .status-live {
+    background: rgba(214,40,40,0.2);
+    color: #FF6B6B;
+    animation: pulse-live 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse-live {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+
+  .status-upcoming {
+    background: rgba(244,165,0,0.15);
+    color: var(--gold);
+  }
+  .status-finished {
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.4);
+  }
+
+  .match-venue-col {
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    text-align: right;
+    line-height: 1.4;
+  }
+
+  /* ── GROUPS ── */
+  .groups-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+
+  .group-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .group-header {
+    background: var(--ink);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .group-label {
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: 0.04em;
+  }
+  .group-label span { color: var(--gold); }
+
+  .group-table { width: 100%; border-collapse: collapse; }
+  .group-table thead tr {
+    border-bottom: 1px solid var(--border);
+  }
+  .group-table th {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 8px 6px;
+    text-align: center;
+  }
+  .group-table th:first-child { text-align: left; padding-left: 16px; }
+
+  .group-table tbody tr {
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    transition: background 0.12s;
+    cursor: pointer;
+  }
+  .group-table tbody tr:hover { background: #f8f7f4; }
+  .group-table tbody tr:last-child { border-bottom: none; }
+
+  .group-table td {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-soft);
+    padding: 9px 6px;
+    text-align: center;
+  }
+  .group-table td:first-child {
+    text-align: left;
+    padding-left: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .team-name-cell {
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--ink);
+  }
+
+  .pos-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .pos-dot.qualify { background: var(--blue); }
+  .pos-dot.out { background: rgba(0,0,0,0.15); }
+
+  .pts-cell {
+    font-family: var(--display);
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--ink) !important;
+  }
+
+  .flag-sm {
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  /* ── FEATURED MATCH ── */
+  .featured-section {
+    background: linear-gradient(135deg, #0D1117 0%, #1a1a2e 50%, #0D1117 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .featured-section::before {
+    content: '';
+    position: absolute;
+    top: -100px; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(244,165,0,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .featured-section .section-title { color: var(--white); }
+  .featured-section .section-eyebrow { color: var(--gold); }
+
+  .featured-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 3rem;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 2rem;
+    position: relative;
+  }
+
+  .featured-team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .featured-team.away { flex-direction: column; }
+
+  .featured-team-flag {
+    font-size: 64px;
+    line-height: 1;
+  }
+
+  .featured-team-name {
+    font-family: var(--display);
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--white);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-align: center;
+  }
+
+  .featured-team-rank {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    font-weight: 500;
+  }
+
+  .featured-center {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .featured-vs {
+    font-family: var(--display);
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .featured-info {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.8;
+    text-align: center;
+  }
+
+  .featured-info strong {
+    color: rgba(255,255,255,0.85);
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .featured-badge {
+    background: var(--red);
+    color: var(--white);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 3px;
+  }
+
+  .upcoming-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .upcoming-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 8px;
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .upcoming-card:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(255,255,255,0.14);
+  }
+
+  .upcoming-teams {
+    font-family: var(--display);
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--white);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .upcoming-sep {
+    color: var(--gold);
+    font-size: 14px;
+  }
+
+  .upcoming-meta {
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    font-weight: 500;
+  }
+
+  /* ── STATS ── */
+  .stats-section { background: var(--off-white); }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .stat-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .stat-card-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+    color: var(--red);
+  }
+
+  .stat-card-num {
+    font-family: var(--display);
+    font-size: 40px;
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .stat-card-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .stat-card-sub {
+    font-size: 12px;
+    color: #b0b0aa;
+    margin-top: 4px;
+  }
+
+  .top-scorers {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .scorers-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .scorers-title {
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .scorer-row {
+    display: grid;
+    grid-template-columns: 36px 1fr auto auto;
+    align-items: center;
+    padding: 12px 1.5rem;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    transition: background 0.12s;
+    cursor: pointer;
+  }
+  .scorer-row:hover { background: #f9f8f5; }
+  .scorer-row:last-child { border-bottom: none; }
+
+  .scorer-rank {
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 900;
+    color: rgba(0,0,0,0.15);
+    text-align: center;
+  }
+  .scorer-rank.top3 { color: var(--gold-dark); }
+
+  .scorer-info { display: flex; flex-direction: column; gap: 2px; }
+  .scorer-name {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--ink);
+  }
+  .scorer-team {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .scorer-goals {
+    font-family: var(--display);
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--red);
+  }
+
+  .goals-label {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-align: right;
+  }
+
+  /* ── HOSTS ── */
+  .hosts-section { background: var(--white); }
+
+  .hosts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .host-card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .host-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+
+  .host-banner {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 60px;
+    position: relative;
+  }
+
+  .host-banner.usa { background: linear-gradient(135deg, #B22234, #3C3B6E); }
+  .host-banner.canada { background: linear-gradient(135deg, #FF0000, #CC0000); }
+  .host-banner.mexico { background: linear-gradient(135deg, #006847, #CE1126); }
+
+  .host-body { padding: 1.25rem 1.5rem; }
+  .host-name {
+    font-family: var(--display);
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--ink);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .host-detail {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .host-stat {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+  .host-stat-item {
+    background: var(--off-white);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .host-stat-item span { color: var(--muted); font-weight: 400; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    padding: 3rem 0;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-logo {
+    font-family: var(--display);
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: 0.02em;
+  }
+  .footer-logo span { color: var(--gold); }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    flex-wrap: wrap;
+  }
+  .footer-links a {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+
+  .footer-copy {
+    font-size: 12px;
+    color: rgba(255,255,255,0.25);
+    text-align: right;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; }
+    .news-grid { grid-template-columns: 1fr; }
+    .groups-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .hosts-grid { grid-template-columns: 1fr; }
+    .match-row { grid-template-columns: 1fr auto 1fr; }
+    .match-date-col, .match-venue-col { display: none; }
+    .upcoming-grid { grid-template-columns: 1fr; }
+    .featured-card { grid-template-columns: 1fr; }
+    .featured-center { flex-direction: row; justify-content: center; }
+  }
+
+  @media (max-width: 600px) {
+    section { padding: 56px 0; }
+    .groups-grid { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero-stats { gap: 1.5rem; }
+    .hero-stat-num { font-size: 30px; }
+  }
+
+  /* ── ANIMATIONS ── */
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-headline, .hero-subtitle, .hero-btns, .hero-eyebrow {
+      animation: fade-up 0.7s ease both;
+    }
+    .hero-eyebrow { animation-delay: 0.1s; }
+    .hero-headline { animation-delay: 0.2s; }
+    .hero-subtitle { animation-delay: 0.35s; }
+    .hero-btns { animation-delay: 0.5s; }
+    .hero-stats { animation: fade-up 0.7s 0.65s ease both; }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">WC<span>2026</span></a>
+  <ul class="nav-links">
+    <li><a href="#news">News</a></li>
+    <li><a href="#schedule">Schedule</a></li>
+    <li><a href="#groups">Groups</a></li>
+    <li><a href="#stats">Stats</a></li>
+    <li><a href="#hosts">Venues</a></li>
+    <li><a href="#" class="nav-cta">Get Tickets</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-field"></div>
+  <div class="hero-arc"></div>
+  <div class="hero-arc2"></div>
+
+  <div class="hero-eyebrow">June 11 – July 19, 2026 · USA · Canada · Mexico</div>
+
+  <h1 class="hero-headline">
+    FIFA World Cup
+    <span class="year">2026</span>
+  </h1>
+
+  <p class="hero-subtitle">48 nations. 3 host countries. 104 matches. The greatest sporting event on Earth is here. Follow every goal, every story, every moment.</p>
+
+  <div class="hero-btns">
+    <a href="#schedule" class="btn-primary">Explore Schedule →</a>
+    <a href="#groups" class="btn-secondary">View Groups</a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat-item">
+      <div class="hero-stat-num">48<span></span></div>
+      <div class="hero-stat-label">Nations</div>
+    </div>
+    <div class="hero-stat-item">
+      <div class="hero-stat-num">104<span></span></div>
+      <div class="hero-stat-label">Matches</div>
+    </div>
+    <div class="hero-stat-item">
+      <div class="hero-stat-num">16<span></span></div>
+      <div class="hero-stat-label">Venues</div>
+    </div>
+    <div class="hero-stat-item">
+      <div class="hero-stat-num">39<span> days</span></div>
+      <div class="hero-stat-label">Tournament</div>
+    </div>
+    <div class="hero-stat-item">
+      <div class="hero-stat-num">5M<span>+</span></div>
+      <div class="hero-stat-label">Tickets</div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner" id="tickerInner">
+    <div class="ticker-item"><div class="ticker-dot"></div>🔴 LIVE: Brazil 2–1 Argentina · 72'</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>FINAL: Spain 3–0 Croatia</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>France vs England · Tomorrow 20:00 ET</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Portugal qualifies for Round of 16</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Germany vs Japan · June 12 · 17:00 ET</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Morocco shock Netherlands 2–1</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>USA 1–1 Mexico · Halftime</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>🏆 World Cup 2026 · 48 Nations · 3 Countries</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>🔴 LIVE: Brazil 2–1 Argentina · 72'</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>FINAL: Spain 3–0 Croatia</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>France vs England · Tomorrow 20:00 ET</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Portugal qualifies for Round of 16</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Germany vs Japan · June 12 · 17:00 ET</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>Morocco shock Netherlands 2–1</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>USA 1–1 Mexico · Halftime</div>
+    <div class="ticker-item"><div class="ticker-dot"></div>🏆 World Cup 2026 · 48 Nations · 3 Countries</div>
+  </div>
+</div>
+
+<!-- NEWS -->
+<section id="news">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">Latest Updates</div>
+        <h2 class="section-title">Tournament News</h2>
+        <p class="section-subtitle">Breaking stories, match reports, and exclusive analysis from World Cup 2026.</p>
+      </div>
+      <a href="#" class="view-all">All stories →</a>
+    </div>
+
+    <div class="news-grid">
+      <div class="news-main">
+        <span class="news-tag">Match Report</span>
+        <h3 class="news-title-main">Brazil edge Argentina in South American El Clásico to seal top spot in Group C</h3>
+        <p class="news-excerpt">An 85th-minute winner from Vinicius Jr. sealed a tense 2–1 victory for the Seleção, sending them through to the Round of 16 as group leaders. Argentina must now wait for the final group game to confirm their passage.</p>
+        <div class="news-meta">2 hours ago · Group Stage · MetLife Stadium, New Jersey</div>
+      </div>
+      <div class="news-side">
+        <div class="news-card">
+          <span class="news-tag gold">Tournament</span>
+          <h3 class="news-title">Spain's attacking masterclass dismantles Croatia with three unanswered goals</h3>
+          <div class="news-meta">5 hours ago · Group A</div>
+        </div>
+        <div class="news-card">
+          <span class="news-tag blue">Analysis</span>
+          <h3 class="news-title">Morocco's tactical blueprint: how Atlas Lions shocked European giants</h3>
+          <div class="news-meta">Yesterday · Group F</div>
+        </div>
+        <div class="news-card">
+          <span class="news-tag">Injury</span>
+          <h3 class="news-title">Portugal captain Ronaldo doubtful for crucial Group B decider against France</h3>
+          <div class="news-meta">Yesterday · Team News</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section class="schedule-section" id="schedule">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">Fixtures & Results</div>
+        <h2 class="section-title">Match Schedule</h2>
+        <p class="section-subtitle">All times shown in Eastern Time (ET). Results and standings update in real time.</p>
+      </div>
+      <a href="#" class="view-all" style="color: var(--gold);">Full calendar →</a>
+    </div>
+
+    <div class="match-tabs">
+      <button class="match-tab active">Today</button>
+      <button class="match-tab">Tomorrow</button>
+      <button class="match-tab">Jun 12</button>
+      <button class="match-tab">Jun 13</button>
+      <button class="match-tab">Jun 14</button>
+    </div>
+
+    <div class="matches-list">
+
+      <div class="match-row">
+        <div class="match-date-col"><strong>Ongoing</strong>Group Stage · Group C</div>
+        <div class="match-team">
+          <div class="team-flag">🇧🇷</div>
+          Brazil
+        </div>
+        <div class="match-score">
+          <div class="score-display">2 – 1</div>
+          <div class="score-vs">72'</div>
+        </div>
+        <div class="match-team right">
+          Argentina
+          <div class="team-flag">🇦🇷</div>
+        </div>
+        <div class="match-venue-col">MetLife Stadium<br>New Jersey</div>
+      </div>
+
+      <div class="match-row">
+        <div class="match-date-col"><strong>Ongoing</strong>Group Stage · Group A</div>
+        <div class="match-team">
+          <div class="team-flag">🇺🇸</div>
+          USA
+        </div>
+        <div class="match-score">
+          <div class="score-display">1 – 1</div>
+          <div class="score-vs">HT</div>
+        </div>
+        <div class="match-team right">
+          Mexico
+          <div class="team-flag">🇲🇽</div>
+        </div>
+        <div class="match-venue-col">AT&T Stadium<br>Dallas</div>
+      </div>
+
+      <div class="match-row">
+        <div class="match-date-col"><strong>20:00 ET</strong>Group Stage · Group B</div>
+        <div class="match-team">
+          <div class="team-flag">🇫🇷</div>
+          France
+        </div>
+        <div class="match-score">
+          <div class="score-vs">vs</div>
+        </div>
+        <div class="match-team right">
+          England
+          <div class="team-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div>
+        </div>
+        <div class="match-venue-col">SoFi Stadium<br>Los Angeles</div>
+      </div>
+
+      <div class="match-row">
+        <div class="match-date-col"><strong>Final</strong>Group Stage · Group E</div>
+        <div class="match-team">
+          <div class="team-flag">🇪🇸</div>
+          Spain
+        </div>
+        <div class="match-score">
+          <div class="score-display">3 – 0</div>
+          <div class="score-vs">FT</div>
+        </div>
+        <div class="match-team right">
+          Croatia
+          <div class="team-flag">🇭🇷</div>
+        </div>
+        <div class="match-venue-col">Hard Rock Stadium<br>Miami</div>
+      </div>
+
+      <div class="match-row">
+        <div class="match-date-col"><strong>Final</strong>Group Stage · Group F</div>
+        <div class="match-team">
+          <div class="team-flag">🇲🇦</div>
+          Morocco
+        </div>
+        <div class="match-score">
+          <div class="score-display">2 – 1</div>
+          <div class="score-vs">FT</div>
+        </div>
+        <div class="match-team right">
+          Netherlands
+          <div class="team-flag">🇳🇱</div>
+        </div>
+        <div class="match-venue-col">Estadio Azteca<br>Mexico City</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- GROUPS -->
+<section id="groups">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">Group Stage</div>
+        <h2 class="section-title">Standings</h2>
+        <p class="section-subtitle">12 groups of 4 teams. Top two from each group advance to the Round of 32.</p>
+      </div>
+      <a href="#" class="view-all">All groups →</a>
+    </div>
+
+    <div class="groups-grid">
+
+      <div class="group-card">
+        <div class="group-header">
+          <div class="group-label">Group <span>A</span></div>
+        </div>
+        <table class="group-table">
+          <thead><tr>
+            <th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td><div class="pos-dot qualify"></div><span class="flag-sm">🇺🇸</span><span class="team-name-cell">USA</span></td>
+              <td>2</td><td>1</td><td>1</td><td>0</td><td>+2</td><td class="pts-cell">4</td>
+            </tr>
+            <tr>
+              <td><div class="pos-dot qualify"></div><span class="flag-sm">🇲🇽</span><span class="team-name-cell">Mexico</span></td>
+              <td>2</td><td>1</td><td>1</td><td>0</td><td>+1</td><td class="pts-cell">4</td>
+            </tr>
+            <tr>
+              <td><div class="pos-dot out"></div><span class="flag-sm">🇨🇦</span><span class="team-name-cell">Canada</span></td>
+              <td>2</td><td>0</td><td>1</td><td>1</td><td>−1</td><td class="pts-cell">1</td>
+            </tr>
+            <tr>
+              <td><div class="pos-dot out"></div><span class="flag-sm">🇳🇿</span><span class="team-name-cell">New Zealand</span></td>
+              <td>2</td><td>0</td><td>1</td><td>1</td><td>−2</td><td class="pts-cell">1</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="group-card">
+        <div class="group-header">
+          <div class="group-label">Group <span>B</span></div>
+        </div>
+        <table class="group-table">
+          <thead><tr>
+            <th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td><div class="pos-dot qualify"></div><span class="flag-sm">🇫🇷</span><span class="team-name-cell">France</span></td>
+              <td>2</td><td>2</td><td>0</td><td>0</td><td>+4</td><td class="pts-cell">6</td>
+            </tr>
+            <tr>
+              <td><div class="pos-dot qualify"></div><span class="flag-sm">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span><span class="team-name-cell">England</span></td>
+              <td>2</td><td>1</td><td>0</td><td>1</td><td>+1</td><td class="pts-cell">3</td>
+            </tr>
+            <tr>
+              <td><div class="pos-dot out"></div><span class="flag-sm">🇵🇹</span><span class="team-name-cell">Portugal</span></td>
+              <td>2</td><td>1</td><td>0</td><td>1</td><td>0</td><td class="pts-cell">3</td>
+            </tr>
+            <tr>
+              <td><div class="pos-dot out"></div><span class="flag-sm">🇸🇦</span><span class="team-name-cell">Saudi Arabia</span></td>
+              <td>2</td><td>0</td><td>0</td><td>2</td><td>−5</td><td class="pts-cell">0</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="group-card">
+        <div class="group-header">
+          <div class="group-label">Group <span>C</span></div>
+        </div>
+        <table class="group-table">
+          <thead><tr>
+            <th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td><div class="pos-dot qualify"></div><span class="flag-sm">🇧🇷</span><span class="team-name-cell">Brazil</span></td>
+              <td>2</td><td>2</td><td>0</td><td>0</td><td>+3</td><td class="pts-cell">6</td>
+            </tr>
+            <tr>
+              <td><div class="pos-dot qualify"></div><span class="flag-sm">🇦🇷</span><span class="team-name-cell">Argentina</span></td>
+              <td>2</td><td>1</td><td>0</td><td>1</td><td>+1</td><td class="pts-cell">3</td>
+            </tr>
+            <tr>
+              <td><div class="pos-dot out"></div><span class="flag-sm">🇨🇴</span><span class="team-name-cell">Colombia</span></td>
+              <td>2</td><td>1</td><td>0</td><td>1</td><td>−1</td><td class="pts-cell">3</td>
+            </tr>
+            <tr>
+              <td><div class="pos-dot out"></div><span class="flag-sm">🇳🇬</span><span class="team-name-cell">Nigeria</span></td>
+              <td>2</td><td>0</td><td>0</td><td>2</td><td>−3</td><td class="pts-cell">0</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="group-card">
+        <div class="group-header">
+          <div class="group-label">Group <span>E</span></div>
+        </div>
+        <table class="group-table">
+          <thead><tr>
+            <th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td><div class="pos-dot qualify"></div><span class="flag-sm">🇩🇪</span><span class="team-name-cell">Germany</span></td>
+              <td>2</td><td>1</td><td>1</td><td>0</td><td>+2</td><td class="pts-cell">4</td>
+            </tr>
+            <tr>
+              <td><div class="pos-dot qualify"></div><span class="flag-sm">🇪🇸</span><span class="team-name-cell">Spain</span></td>
+              <td>2</td><td>1</td><td>0</td><td>1</td><td>+3</td><td class="pts-cell">3</td>
+            </tr>
+            <tr>
+              <td><div class="pos-dot out"></div><span class="flag-sm">🇯🇵</span><span class="team-name-cell">Japan</span></td>
+              <td>2</td><td>1</td><td>0</td><td>1</td><td>0</td><td class="pts-cell">3</td>
+            </tr>
+            <tr>
+              <td><div class="pos-dot out"></div><span class="flag-sm">🇭🇷</span><span class="team-name-cell">Croatia</span></td>
+              <td>2</td><td>0</td><td>1</td><td>1</td><td>−5</td><td class="pts-cell">1</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED MATCH -->
+<section class="featured-section" id="featured">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">Tonight's Spotlight</div>
+        <h2 class="section-title">Featured Match</h2>
+      </div>
+    </div>
+
+    <div class="featured-card">
+      <div class="featured-team">
+        <div class="featured-team-flag">🇫🇷</div>
+        <div class="featured-team-name">France</div>
+        <div class="featured-team-rank">FIFA Rank #2 · Group B Leaders</div>
+      </div>
+
+      <div class="featured-center">
+        <div class="featured-badge">Group Stage · Group B</div>
+        <div class="featured-vs">VS</div>
+        <div class="featured-info">
+          <strong>Tonight · 20:00 ET</strong>
+          SoFi Stadium · Los Angeles, CA<br>
+          Capacity: 70,240 · Referee: Szymon Marciniak
+        </div>
+        <a href="#" class="btn-primary" style="font-size: 15px; padding: 12px 28px;">Watch Live →</a>
+      </div>
+
+      <div class="featured-team">
+        <div class="featured-team-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div>
+        <div class="featured-team-name">England</div>
+        <div class="featured-team-rank">FIFA Rank #4 · 2nd Place Group B</div>
+      </div>
+    </div>
+
+    <div class="upcoming-grid">
+      <div class="upcoming-card">
+        <div class="upcoming-teams">
+          <span>🇩🇪</span>
+          <span>Germany</span>
+          <span class="upcoming-sep">—</span>
+          <span>Japan</span>
+          <span>🇯🇵</span>
+        </div>
+        <div class="upcoming-meta">Jun 12 · 17:00 ET · Group E · MetLife Stadium</div>
+      </div>
+      <div class="upcoming-card">
+        <div class="upcoming-teams">
+          <span>🇲🇦</span>
+          <span>Morocco</span>
+          <span class="upcoming-sep">—</span>
+          <span>Senegal</span>
+          <span>🇸🇳</span>
+        </div>
+        <div class="upcoming-meta">Jun 13 · 14:00 ET · Group F · AT&T Stadium</div>
+      </div>
+      <div class="upcoming-card">
+        <div class="upcoming-teams">
+          <span>🇵🇹</span>
+          <span>Portugal</span>
+          <span class="upcoming-sep">—</span>
+          <span>Belgium</span>
+          <span>🇧🇪</span>
+        </div>
+        <div class="upcoming-meta">Jun 13 · 20:00 ET · Group B · Levi's Stadium</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-section" id="stats">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">By The Numbers</div>
+        <h2 class="section-title">Tournament Stats</h2>
+        <p class="section-subtitle">Live statistics from the 2026 FIFA World Cup group stage.</p>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-card-icon">⚽</div>
+        <div class="stat-card-num">87</div>
+        <div class="stat-card-label">Goals Scored</div>
+        <div class="stat-card-sub">Avg 2.9 per match · 30 matches played</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">🟡</div>
+        <div class="stat-card-num">142</div>
+        <div class="stat-card-label">Yellow Cards</div>
+        <div class="stat-card-sub">4.7 per match average</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">🔴</div>
+        <div class="stat-card-num">8</div>
+        <div class="stat-card-label">Red Cards</div>
+        <div class="stat-card-sub">0.27 per match average</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon">🎯</div>
+        <div class="stat-card-num">23</div>
+        <div class="stat-card-label">Hat-tricks</div>
+        <div class="stat-card-sub">Across 5 players</div>
+      </div>
+    </div>
+
+    <div class="top-scorers">
+      <div class="scorers-header">
+        <div class="scorers-title">Top Scorers</div>
+        <a href="#" class="view-all">Full table →</a>
+      </div>
+
+      <div class="scorer-row">
+        <div class="scorer-rank top3">1</div>
+        <div class="scorer-info">
+          <div class="scorer-name">Kylian Mbappé</div>
+          <div class="scorer-team"><span class="flag-sm">🇫🇷</span> France</div>
+        </div>
+        <div>
+          <div class="scorer-goals">5</div>
+          <div class="goals-label">goals</div>
+        </div>
+      </div>
+
+      <div class="scorer-row">
+        <div class="scorer-rank top3">2</div>
+        <div class="scorer-info">
+          <div class="scorer-name">Vinicius Jr.</div>
+          <div class="scorer-team"><span class="flag-sm">🇧🇷</span> Brazil</div>
+        </div>
+        <div>
+          <div class="scorer-goals">4</div>
+          <div class="goals-label">goals</div>
+        </div>
+      </div>
+
+      <div class="scorer-row">
+        <div class="scorer-rank top3">3</div>
+        <div class="scorer-info">
+          <div class="scorer-name">Harry Kane</div>
+          <div class="scorer-team"><span class="flag-sm">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> England</div>
+        </div>
+        <div>
+          <div class="scorer-goals">3</div>
+          <div class="goals-label">goals</div>
+        </div>
+      </div>
+
+      <div class="scorer-row">
+        <div class="scorer-rank">4</div>
+        <div class="scorer-info">
+          <div class="scorer-name">Pedri</div>
+          <div class="scorer-team"><span class="flag-sm">🇪🇸</span> Spain</div>
+        </div>
+        <div>
+          <div class="scorer-goals">3</div>
+          <div class="goals-label">goals</div>
+        </div>
+      </div>
+
+      <div class="scorer-row">
+        <div class="scorer-rank">5</div>
+        <div class="scorer-info">
+          <div class="scorer-name">Romelu Lukaku</div>
+          <div class="scorer-team"><span class="flag-sm">🇧🇪</span> Belgium</div>
+        </div>
+        <div>
+          <div class="scorer-goals">3</div>
+          <div class="goals-label">goals</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOSTS -->
+<section class="hosts-section" id="hosts">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-eyebrow">3 Nations · 16 Cities</div>
+        <h2 class="section-title">Host Countries</h2>
+        <p class="section-subtitle">For the first time in history, three nations share the honor of hosting football's greatest tournament.</p>
+      </div>
+    </div>
+
+    <div class="hosts-grid">
+      <div class="host-card">
+        <div class="host-banner usa">🇺🇸</div>
+        <div class="host-body">
+          <div class="host-name">United States</div>
+          <div class="host-detail">The primary host nation with 11 venues across the country, from the iconic MetLife Stadium in New Jersey to SoFi Stadium in Los Angeles. Hosting the final at MetLife.</div>
+          <div class="host-stat">
+            <div class="host-stat-item">⚽ <span>60</span> matches</div>
+            <div class="host-stat-item">🏟️ <span>11</span> venues</div>
+            <div class="host-stat-item">🏆 <span>Final host</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="host-card">
+        <div class="host-banner canada">🇨🇦</div>
+        <div class="host-body">
+          <div class="host-name">Canada</div>
+          <div class="host-detail">Three cities — Toronto, Vancouver, and Edmonton — bring Canadian football culture to the world stage. BMO Field and BC Place are among the marquee venues.</div>
+          <div class="host-stat">
+            <div class="host-stat-item">⚽ <span>13</span> matches</div>
+            <div class="host-stat-item">🏟️ <span>3</span> venues</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="host-card">
+        <div class="host-banner mexico">🇲🇽</div>
+        <div class="host-body">
+          <div class="host-name">Mexico</div>
+          <div class="host-detail">The legendary Estadio Azteca hosts matches for the third time — a World Cup first — alongside Guadalajara and Monterrey. A return to football's holy ground.</div>
+          <div class="host-stat">
+            <div class="host-stat-item">⚽ <span>13</span> matches</div>
+            <div class="host-stat-item">🏟️ <span>3</span> venues</div>
+            <div class="host-stat-item">🌟 <span>Historic</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo">WC<span>2026</span></div>
+      <ul class="footer-links">
+        <li><a href="#">News</a></li>
+        <li><a href="#">Schedule</a></li>
+        <li><a href="#">Groups</a></li>
+        <li><a href="#">Teams</a></li>
+        <li><a href="#">Venues</a></li>
+        <li><a href="#">Stats</a></li>
+        <li><a href="#">Tickets</a></li>
+      </ul>
+      <div class="footer-copy">
+        World Cup 2026 Fan Site<br>
+        Not affiliated with FIFA
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.match-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.match-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href');
+      if (id === '#') return;
+      const el = document.querySelector(id);
+      if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+</script>
+
+</body>
+</html>
