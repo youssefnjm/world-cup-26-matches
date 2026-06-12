@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useMemo, useEffect } from 'react';
-import wordCupApi from '../APIs/openfootball/worldcup';
+import worldCupApi from '../APIs/openfootball/worldcup';
 
 const WC26Context = createContext();
 
@@ -9,34 +9,64 @@ export const useWC26 = () => {
 }
 
 export const WC26Provider = ({ children }) => {
-	// const [isLoading, setIsLoading] = useState(true);
-	const [ teams, setTeams ] = useState(null);
-	const [ stadiums, setStadiums ] = useState(null);
-	const [ squades, setSquades ] = useState(null);
+	const [ isLoading, setIsLoading ] = useState(false);
 
+	const [ matches, setMatches ] = useState([]);
+	const [ teams, setTeams ] = useState([]);
+	const [ stadiums, setStadiums ] = useState([]);
+	const [ squades, setSquades ] = useState([]);
+	const [ groups, setGroups ] = useState([]);
+
+	const getAllData = async () => {
+		const teams = await worldCupApi('2026/worldcup.teams.json');
+		if (teams) {
+			console.log(teams.data);
+			setTeams(teams.data);
+		}
+		const stadiums = await worldCupApi('2026/worldcup.stadiums.json');
+		if (stadiums) {
+			console.log(stadiums);
+			setStadiums(stadiums.data);
+		}
+		
+		const squades = await worldCupApi('2026/worldcup.squads.json');
+		if (squades) {
+			console.log(squades);
+			setSquades(squades.data);
+		}
+
+		const groups = await worldCupApi('2026/worldcup.groups.json');
+		if (groups) {
+			console.log(groups);
+			setGroups(groups.data);
+		}
+
+		const matches = await worldCupApi('2026/worldcup.json');
+		if (matches) {
+			console.log(matches);
+			setMatches(matches.data);
+		}
+		
+	}
+	
 	useEffect(() => {
-		const isMountedRef = { current: true };
-		checkAuth(isMountedRef);
-
-		return () => {
-			isMountedRef.current = false;
-		};
+		setIsLoading(true);
+		getAllData();
+		setIsLoading(false);
 	}, []);
 
 	const value = {
+		matches,
 		teams,
 		stadiums,
 		squades,
-
-		// isAuthenticated,
-		// setIsAuthenticated,
-		// isLoading,
-		// setIsLoading
+		groups,
+		isLoading,
 	};
 
 	return (
-		<AuthContext.Provider value={value}>
+		<WC26Context.Provider value={value}>
 			{children}
-		</AuthContext.Provider>
+		</WC26Context.Provider>
 	);
 };

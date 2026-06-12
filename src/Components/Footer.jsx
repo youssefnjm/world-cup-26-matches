@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
     return (
@@ -14,6 +15,9 @@ const Footer = () => {
                     <li><a href="#">Venues</a></li>
                     <li><a href="#">Stats</a></li>
                     <li><a href="#">Tickets</a></li>
+                    <li><Link to="/">Home</Link></li>
+                    <li><Link to="/Schedule">Schedule</Link></li>
+                    <li><Link to="/Groups">Groups</Link></li>
                 </ul>
                 <div className="footer-copy">
                     World Cup 2026 Fan Site<br/>

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const wordCupApi = async (url) => {
+const worldCupApi = async (url) => {
     try {
         const res = await axios.get(`https://raw.githubusercontent.com/openfootball/worldcup.json/master/${url}`);
 
@@ -19,4 +19,4 @@ const wordCupApi = async (url) => {
     }
 };
 
-export default wordCupApi;
+export default worldCupApi;
