@@ -28,15 +28,15 @@ jobs:
         push: true
         tags: mboulagh/world-cup-2026:v1.0.0
 
-  # deploy-vercel:
-  #   runs-on: ubuntu-latest
-  #   steps:
+  deploy-vercel:
+    runs-on: ubuntu-latest
+    steps:
       
-  #     - name: checkout code
-  #       uses: actions/checkout@v4
+      - name: checkout code
+        uses: actions/checkout@v4
         
-  #     - name: deploy to vercel
-  #       uses: amondnet/vercel-action@v42
-  #       with:
-  #         vercel-token: ${{ secrets.VERCEL_TOKEN }}
-  #         vercel-args: '--prod --yes'
+      - name: deploy to vercel
+        uses: amondnet/vercel-action@v42
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-args: '--yes'
