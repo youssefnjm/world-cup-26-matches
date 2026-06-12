@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const NavBare = () => {
     return (
         <nav>
-            <a href="#" className="nav-logo">WC<span>2026</span></a>
+            <Link t={"/"} className="nav-logo">WC<span>2026</span></Link>
             <ul className="nav-links">
                 <Link to="/">Home</Link>
                 <Link to="/Schedule">Schedule</Link>

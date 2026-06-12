@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import NavBare from '../Components/NavBar'
 import Footer from '../Components/Footer';
 import { useWC26 } from '../Context/WC26';
-import { Link } from 'react-router-dom';
+import { Link, Links } from 'react-router-dom';
 
 
 export default function LandingPage() {
@@ -136,156 +136,213 @@ export default function LandingPage() {
     }
     
     const Schedule = () => {
-        const todayMatches = matches?.matches?.filter( (match) => match.date === today );
-        
+        const [now, setNow] = useState(new Date());
+
+        // Tick the clock every minute to track live matches reactively
+        useEffect(() => {
+            const timer = setInterval(() => setNow(new Date()), 60000);
+            return () => clearInterval(timer);
+        }, []);
+
+        const allMatches = matches?.matches || [];
+        const allTeams = teams || [];
+
+        // Helper: Safely calculate full Date Object using data strings and original offsets
+        const getMatchDateTimeObject = (dateStr, timeStr) => {
+            if (!timeStr) return new Date(`${dateStr}T00:00:00Z`);
+            try {
+                const cleanTime = timeStr.replace(/UTC([+-]\d+)/, (match, offset) => {
+                    const sign = offset[0];
+                    const hours = offset.slice(1).padStart(2, '0');
+                    return `${sign}${hours}:00`;
+                });
+                const fullIsoString = `${dateStr}T${cleanTime.split(' ')[0]}${cleanTime.split(' ')[1] || ''}`;
+                return new Date(fullIsoString);
+            } catch (e) {
+                return new Date(`${dateStr}T00:00:00Z`);
+            }
+        };
+
+        // Helper: Formats the match kickoff hour explicitly to Morocco Time
+        const convertToMoroccoTime = (dateStr, timeStr) => {
+            if (!timeStr) return "";
+            const matchDateObj = getMatchDateTimeObject(dateStr, timeStr);
+            return matchDateObj.toLocaleTimeString('en-GB', {
+                timeZone: 'Africa/Casablanca',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            });
+        };
+
+        // 1. CALCULATE STATE DYNAMICALLY (upcoming, ongoing, finished)
         const getMatchStatus = (match) => {
-            const matchTime = match.time.split(" ")[0]; // "21:00 UTC+3" -> "21:00"
+            // If an absolute finished flag or full-time score array exists, override directly
+            if (match.score && match.score.ft) {
+                return "finished";
+            }
 
-            const kickoff = new Date(`${match.date}T${matchTime}:00`);
-
-            // Estimated match duration (2 hours)
-            const end = new Date(kickoff.getTime() + 120 * 60 * 1000);
+            const kickoff = getMatchDateTimeObject(match.date, match.time);
+            const end = new Date(kickoff.getTime() + 120 * 60 * 1000); // 2 hours duration
 
             if (now < kickoff) {
                 return "upcoming";
             }
-
             if (now >= kickoff && now < end) {
-                return "ongoing";
+                return "ongoing"; // LIVE
             }
-
-            return "finished";
+            return "finished"; // FT
         };
 
-        const upcomingMatches = todayMatches?.filter(
-            (match) => getMatchStatus(match) === "upcoming"
-        );
+        // Get current calendar day string mapped to Morocco's timeline (e.g., "2026-06-12")
+        const todayMoroccoString = now.toLocaleDateString("en-CA", {
+            timeZone: "Africa/Casablanca",
+        });
 
-        const ongoingMatches = todayMatches?.filter(
-            (match) => getMatchStatus(match) === "ongoing"
-        );
+        // 2. FIXED TODAY FILTER: Filter matches that fall into TODAY on the Moroccan Calendar
+        const todayMatches = allMatches.filter((match) => {
+            const matchDateObj = getMatchDateTimeObject(match.date, match.time);
+            const matchMoroccoDateStr = matchDateObj.toLocaleDateString('en-CA', {
+                timeZone: 'Africa/Casablanca'
+            });
+            return matchMoroccoDateStr === todayMoroccoString;
+        });
 
-        const finishedMatches = todayMatches?.filter(
-            (match) => getMatchStatus(match) === "finished"
-        );
-        
-        return (<>
-            <section className="schedule-section" id="schedule">
-                <div className="container">
-                    <div className="section-header">
-                    <div>
-                        <div className="section-eyebrow">Fixtures & Results</div>
-                        <h2 className="section-title">Match Schedule</h2>
-                        <p className="section-subtitle">All times shown in Eastern Time (ET). Results and standings update in real time.</p>
-                    </div>
-                    <a href="#" className="view-all" style={{ color: "var(--gold)" }}>Full calendar →</a>
-                    </div>
-                
-                    <div className="match-tabs">
-                        <button className="match-tab active">Today</button>
-                    </div>
-                
-                    <div className="matches-list">
-                
-                        {upcomingMatches?.map((ele, key) => (
-                            <div key={key} className="match-row">
-                                <div className="match-date-col">
-                                    <strong>{ele.time}</strong>
-                                    {ele.round}
-                                </div>
+        // 3. Split matches cleanly by calculated state
+        const upcomingMatches = todayMatches.filter(match => getMatchStatus(match) === "upcoming");
+        const ongoingMatches = todayMatches.filter(match => getMatchStatus(match) === "ongoing");
+        const finishedMatches = todayMatches.filter(match => getMatchStatus(match) === "finished");
 
-                                <div className="match-team">
-                                    <div className="team-flag">
-                                        {teams.find(team => team.name === ele.team1)?.flag_icon}
-                                    </div>
-                                    <p className='text-white'>{ele.team1}</p>
-                                </div>
+        if (isLoading) {
+            return <div className="text-center py-10 text-white">Loading today's fixtures...</div>;
+        }
 
-                                <div className="score-vs" style={{ color: "white" }} >vs</div>
-
-                                <div className="match-team right">
-                                    <p className='text-white'>{ele.team2}</p>
-                                    <div className="team-flag">
-                                        {teams.find(team => team.name === ele.team2)?.flag_icon}
-                                    </div>
-                                </div>
-
-                                <div className="match-venue-col">{ele.ground}</div>
+        return (
+            <>
+                <section className="schedule-section" id="schedule">
+                    <div className="container">
+                        <div className="section-header">
+                            <div>
+                                <div className="section-eyebrow">Fixtures & Results</div>
+                                <h2 className="section-title">Match Schedule</h2>
+                                <p className="section-subtitle">All times shown in Morocco Time (GMT+1). Results update in real time.</p>
                             </div>
-                        ))}
-
-                        {/* Ongoing */}
-                        {ongoingMatches?.map((ele, key) => (
-                            <div key={key} className="match-row">
-                                <div className="match-date-col">
-                                    <strong>Ongoing</strong>
-                                    {ele.round}
-                                </div>
-
-                                <div className="match-team">
-                                    <div className="team-flag">
-                                        {teams.find(team => team.name === ele.team1)?.flag_icon}
-                                    </div>
-                                    <p className='text-white'>{ele.team1}</p>
-                                </div>
-
-                                <div className="match-score">
-                                    <div className="score-display" style={{ color: "white" }} >
-                                        {ele.score?.ft?.[0] ?? 0} – {ele.score?.ft?.[1] ?? 0}
+                            <Link to={"/Schedule"} className="view-all" style={{ color: "var(--gold)" }}>Full calendar →</Link>
+                        </div>
+                    
+                        <div className="match-tabs">
+                            <button className="match-tab active">Today</button>
+                        </div>
+                    
+                        <div className="matches-list">
+                    
+                            {/* 1. UPCOMING MATCHES */}
+                            {upcomingMatches.map((ele, key) => (
+                                <div key={`up-${key}`} className="match-row">
+                                    <div className="match-date-col">
+                                        {/* Displays formatted Morocco kickoff hour */}
+                                        <strong>{convertToMoroccoTime(ele.date, ele.time)}</strong>
+                                        {ele.round}
                                     </div>
 
-                                    <div className="score-vs">LIVE</div>
-                                </div>
-
-                                <div className="match-team right">
-                                    <p className='text-white'>{ele.team2}</p>
-                                    <div className="team-flag">
-                                        {teams.find(team => team.name === ele.team2)?.flag_icon}
-                                    </div>
-                                </div>
-
-                                <div className="match-venue-col">{ele.ground}</div>
-                            </div>
-                        ))}
-
-                        {/* Finished */}
-                        {finishedMatches?.map((ele, key) => (
-                            <div key={key} className="match-row">
-                                <div className="match-date-col">
-                                    <strong>Final</strong>
-                                    {ele.round}
-                                </div>
-
-                                <div className="match-team">
-                                    <div className="team-flag">
-                                        {teams.find(team => team.name === ele.team1)?.flag_icon}
-                                    </div>
-                                    <p className='text-white'>{ele.team1}</p>
-                                </div>
-
-                                <div className="match-score">
-                                    <div className="score-display" style={{ color: "white" }} >
-                                        {ele.score?.ft?.[0]} – {ele.score?.ft?.[1]}
+                                    <div className="match-team">
+                                        <div className="team-flag">
+                                            {allTeams.find(team => team.name === ele.team1)?.flag_icon || "🏳️"}
+                                        </div>
+                                        <p className='text-white'>{ele.team1}</p>
                                     </div>
 
-                                    <div className="score-vs">FT</div>
-                                </div>
+                                    <div className="score-vs" style={{ color: "white" }}>vs</div>
 
-                                <div className="match-team right">
-                                    <p className='text-white'>{ele.team2}</p>
-                                    <div className="team-flag">
-                                        {teams.find(team => team.name === ele.team2)?.flag_icon}
+                                    <div className="match-team right">
+                                        <p className='text-white'>{ele.team2}</p>
+                                        <div className="team-flag">
+                                            {allTeams.find(team => team.name === ele.team2)?.flag_icon || "🏳️"}
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div className="match-venue-col">{ele.ground}</div>
-                            </div>
-                        ))}
-                
+                                    <div className="match-venue-col">{ele.ground}</div>
+                                </div>
+                            ))}
+
+                            {/* 2. ONGOING / LIVE MATCHES */}
+                            {ongoingMatches.map((ele, key) => (
+                                <div key={`live-${key}`} className="match-row">
+                                    <div className="match-date-col">
+                                        <strong style={{ color: "red" }}>Ongoing</strong>
+                                        {ele.round}
+                                    </div>
+
+                                    <div className="match-team">
+                                        <div className="team-flag">
+                                            {allTeams.find(team => team.name === ele.team1)?.flag_icon || "🏳️"}
+                                        </div>
+                                        <p className='text-white'>{ele.team1}</p>
+                                    </div>
+
+                                    <div className="match-score">
+                                        <div className="score-display" style={{ color: "white" }}>
+                                            vs
+                                        </div>
+                                        <div className="score-vs" style={{ color: "red", fontWeight: "bold" }}>LIVE</div>
+                                    </div>
+
+                                    <div className="match-team right">
+                                        <p className='text-white'>{ele.team2}</p>
+                                        <div className="team-flag">
+                                            {allTeams.find(team => team.name === ele.team2)?.flag_icon || "🏳️"}
+                                        </div>
+                                    </div>
+
+                                    <div className="match-venue-col">{ele.ground}</div>
+                                </div>
+                            ))}
+
+                            {/* 3. FINISHED MATCHES */}
+                            {finishedMatches.map((ele, key) => (
+                                <div key={`fin-${key}`} className="match-row">
+                                    <div className="match-date-col">
+                                        <strong>Final</strong>
+                                        {ele.round}
+                                    </div>
+
+                                    <div className="match-team">
+                                        <div className="team-flag">
+                                            {allTeams.find(team => team.name === ele.team1)?.flag_icon || "🏳️"}
+                                        </div>
+                                        <p className='text-white'>{ele.team1}</p>
+                                    </div>
+
+                                    <div className="match-score">
+                                        <div className="score-display" style={{ color: "white" }}>
+                                            {ele.score?.ft?.[0] ?? 0} – {ele.score?.ft?.[1] ?? 0}
+                                        </div>
+                                        <div className="score-vs">FT</div>
+                                    </div>
+
+                                    <div className="match-team right">
+                                        <p className='text-white'>{ele.team2}</p>
+                                        <div className="team-flag">
+                                            {allTeams.find(team => team.name === ele.team2)?.flag_icon || "🏳️"}
+                                        </div>
+                                    </div>
+
+                                    <div className="match-venue-col">{ele.ground}</div>
+                                </div>
+                            ))}
+
+                            {/* Empty State fallback if no games are scheduled for today */}
+                            {todayMatches.length === 0 && (
+                                <div className="text-center py-10 text-gray-400">
+                                    No matches scheduled for today.
+                                </div>
+                            )}
+                    
+                        </div>
                     </div>
-                </div>
-            </section>
-        </>)
+                </section>
+            </>
+        );
     }
     
     const Groups = () => {

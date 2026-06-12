@@ -1479,6 +1479,10 @@ footer {
   position: sticky;
   top: 64px;
   z-index: 90;
+  overflow-x: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .control-inner {
   display: flex;
