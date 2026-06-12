@@ -302,7 +302,7 @@ export default function LandingPage() {
                             {finishedMatches.map((ele, key) => (
                                 <div key={`fin-${key}`} className="match-row">
                                     <div className="match-date-col">
-                                        <strong>Final</strong>
+                                        <strong>Finished</strong>
                                         {ele.round}
                                     </div>
 
@@ -390,117 +390,6 @@ export default function LandingPage() {
                                 );
                             })
                         }
-                
-                    </div>
-                </div>
-            </section>
-        );
-    }
-    
-    const Stats = () => {
-        return (
-            <section className="stats-section" id="stats">
-                <div className="container">
-                    <div className="section-header">
-                    <div>
-                        <div className="section-eyebrow">By The Numbers</div>
-                        <h2 className="section-title">Tournament Stats</h2>
-                        <p className="section-subtitle">Live statistics from the 2026 FIFA World Cup group stage.</p>
-                    </div>
-                    </div>
-                
-                    <div className="stats-grid">
-                    <div className="stat-card">
-                        <div className="stat-card-icon">⚽</div>
-                        <div className="stat-card-num">87</div>
-                        <div className="stat-card-label">Goals Scored</div>
-                        <div className="stat-card-sub">Avg 2.9 per match · 30 matches played</div>
-                    </div>
-                    <div className="stat-card">
-                        <div className="stat-card-icon">🟡</div>
-                        <div className="stat-card-num">142</div>
-                        <div className="stat-card-label">Yellow Cards</div>
-                        <div className="stat-card-sub">4.7 per match average</div>
-                    </div>
-                    <div className="stat-card">
-                        <div className="stat-card-icon">🔴</div>
-                        <div className="stat-card-num">8</div>
-                        <div className="stat-card-label">Red Cards</div>
-                        <div className="stat-card-sub">0.27 per match average</div>
-                    </div>
-                    <div className="stat-card">
-                        <div className="stat-card-icon">🎯</div>
-                        <div className="stat-card-num">23</div>
-                        <div className="stat-card-label">Hat-tricks</div>
-                        <div className="stat-card-sub">Across 5 players</div>
-                    </div>
-                    </div>
-                
-                    <div className="top-scorers">
-                    <div className="scorers-header">
-                        <div className="scorers-title">Top Scorers</div>
-                        <a href="#" className="view-all">Full table →</a>
-                    </div>
-                
-                    <div className="scorer-row">
-                        <div className="scorer-rank top3">1</div>
-                        <div className="scorer-info">
-                        <div className="scorer-name">Kylian Mbappé</div>
-                        <div className="scorer-team"><span className="flag-sm">🇫🇷</span> France</div>
-                        </div>
-                        <div>
-                        <div className="scorer-goals">5</div>
-                        <div className="goals-label">goals</div>
-                        </div>
-                    </div>
-                
-                    <div className="scorer-row">
-                        <div className="scorer-rank top3">2</div>
-                        <div className="scorer-info">
-                        <div className="scorer-name">Vinicius Jr.</div>
-                        <div className="scorer-team"><span className="flag-sm">🇧🇷</span> Brazil</div>
-                        </div>
-                        <div>
-                        <div className="scorer-goals">4</div>
-                        <div className="goals-label">goals</div>
-                        </div>
-                    </div>
-                
-                    <div className="scorer-row">
-                        <div className="scorer-rank top3">3</div>
-                        <div className="scorer-info">
-                        <div className="scorer-name">Harry Kane</div>
-                        <div className="scorer-team"><span className="flag-sm">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> England</div>
-                        </div>
-                        <div>
-                        <div className="scorer-goals">3</div>
-                        <div className="goals-label">goals</div>
-                        </div>
-                    </div>
-                
-                    <div className="scorer-row">
-                        <div className="scorer-rank">4</div>
-                        <div className="scorer-info">
-                        <div className="scorer-name">Pedri</div>
-                        <div className="scorer-team"><span className="flag-sm">🇪🇸</span> Spain</div>
-                        </div>
-                        <div>
-                        <div className="scorer-goals">3</div>
-                        <div className="goals-label">goals</div>
-                        </div>
-                    </div>
-                
-                    <div className="scorer-row">
-                        <div className="scorer-rank">5</div>
-                        <div className="scorer-info">
-                        <div className="scorer-name">Romelu Lukaku</div>
-                        <div className="scorer-team"><span className="flag-sm">🇧🇪</span> Belgium</div>
-                        </div>
-                        <div>
-                        <div className="scorer-goals">3</div>
-                        <div className="goals-label">goals</div>
-                        </div>
-                    </div>
                 
                     </div>
                 </div>
@@ -618,6 +507,169 @@ export default function LandingPage() {
         );
     }
 
+    const Stats = () => {
+        const allMatches = matches?.matches || [];
+        const allTeams = teams || [];
+
+        // --- AUTOMATED STATISTICS & METRICS ENGINE ---
+        const completedMatches = allMatches.filter(match => match.score && match.score.ft);
+        const totalMatchesPlayed = completedMatches.length;
+
+        let totalGoalsScored = 0;
+        let hatTricksCount = 0;
+        const hatTrickPlayers = new Set();
+        const scorerRegistry = {}; // Format: { "Player Name": { team: "TeamName", goals: X } }
+
+        completedMatches.forEach((match) => {
+            // 1. Accumulate Total Goals from score array safely
+            const [score1, score2] = match.score.ft;
+            totalGoalsScored += (score1 || 0) + (score2 || 0);
+
+            // Track goals per player specifically for this match to detect hat-tricks
+            const matchPlayerGoals = {};
+
+            // Process scorers for Team 1
+            if (Array.isArray(match.goals1)) {
+                match.goals1.forEach((goal) => {
+                    if (!goal.name) return;
+                    
+                    // Absolute Tournament Standings Registry
+                    if (!scorerRegistry[goal.name]) {
+                        scorerRegistry[goal.name] = { team: match.team1, goals: 0 };
+                    }
+                    scorerRegistry[goal.name].goals += 1;
+
+                    // Match specific registry for hat-trick verification
+                    matchPlayerGoals[goal.name] = (matchPlayerGoals[goal.name] || 0) + 1;
+                });
+            }
+
+            // Process scorers for Team 2
+            if (Array.isArray(match.goals2)) {
+                match.goals2.forEach((goal) => {
+                    if (!goal.name) return;
+
+                    // Absolute Tournament Standings Registry
+                    if (!scorerRegistry[goal.name]) {
+                        scorerRegistry[goal.name] = { team: match.team2, goals: 0 };
+                    }
+                    scorerRegistry[goal.name].goals += 1;
+
+                    // Match specific registry for hat-trick verification
+                    matchPlayerGoals[goal.name] = (matchPlayerGoals[goal.name] || 0) + 1;
+                });
+            }
+
+            // Check if any player scored 3 or more goals in this match
+            Object.entries(matchPlayerGoals).forEach(([playerName, goalsInMatch]) => {
+                if (goalsInMatch >= 3) {
+                    hatTricksCount += 1;
+                    hatTrickPlayers.add(playerName);
+                }
+            });
+        });
+
+        const avgGoalsPerMatch = totalMatchesPlayed > 0 
+            ? (totalGoalsScored / totalMatchesPlayed).toFixed(1) 
+            : "0.0";
+
+        // 2. SORT TOP SCORERS DYNAMICALLY
+        // Convert registry object to an array and sort descending by goal totals
+        const dynamicTopScorers = Object.entries(scorerRegistry)
+            .map(([name, data]) => ({
+                name,
+                team: data.team,
+                goals: data.goals
+            }))
+            .sort((a, b) => b.goals - a.goals)
+            .slice(0, 5); // Take the top 5 players
+
+        // --- MANUAL ADJUSTMENTS (For stats not tracked in raw JSON) ---
+        const staticCardMetrics = {
+            yellowCards: 142, 
+            redCards: 8
+        };
+
+        // Helper: Safely grab national team flags out of Context
+        const getTeamFlag = (teamName) => {
+            const found = allTeams.find(t => t.name.toLowerCase() === teamName.toLowerCase());
+            return found ? found.flag_icon : "🏳️";
+        };
+
+        if (isLoading) {
+            return <div className="text-center py-10 text-white">Loading tournament statistics...</div>;
+        }
+
+        return (
+            <section className="stats-section" id="stats">
+                <div className="container">
+                    <div className="section-header">
+                        <div>
+                            <div className="section-eyebrow">By The Numbers</div>
+                            <h2 className="section-title">Tournament Stats</h2>
+                            <p className="section-subtitle">Live statistics parsed dynamically from the 2026 FIFA World Cup.</p>
+                        </div>
+                    </div>
+                
+                    <div className="stats-grid">
+                        {/* TOTAL GOALS CARD (DYNAMIC) */}
+                        <div className="stat-card">
+                            <div className="stat-card-icon">⚽</div>
+                            <div className="stat-card-num">{totalGoalsScored}</div>
+                            <div className="stat-card-label">Goals Scored</div>
+                            <div className="stat-card-sub">
+                                Avg {avgGoalsPerMatch} per match · {totalMatchesPlayed} matches played
+                            </div>
+                        </div>
+
+                        {/* HAT-TRICKS CARD (DYNAMIC) */}
+                        <div className="stat-card">
+                            <div className="stat-card-icon">🎯</div>
+                            <div className="stat-card-num">{hatTricksCount}</div>
+                            <div className="stat-card-label">Hat-tricks</div>
+                            <div className="stat-card-sub">Across {hatTrickPlayers.size} unique players</div>
+                        </div>
+                    </div>
+                
+                    {/* TOP SCORERS SECTION (DYNAMIC) */}
+                    <div className="top-scorers">
+                        <div className="scorers-header">
+                            <div className="scorers-title">Top Scorers</div>
+                            <a href="#" className="view-all">Full table →</a>
+                        </div>
+                
+                        {dynamicTopScorers.map((player, idx) => {
+                            const rank = idx + 1;
+                            const rankClass = rank <= 3 ? "scorer-rank top3" : "scorer-rank";
+
+                            return (
+                                <div key={idx} className="scorer-row">
+                                    <div className={rankClass}>{rank}</div>
+                                    <div className="scorer-info">
+                                        <div className="scorer-name">{player.name}</div>
+                                        <div className="scorer-team">
+                                            <span className="flag-sm">{getTeamFlag(player.team)}</span> {player.team}
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="scorer-goals">{player.goals}</div>
+                                        <div className="goals-label">{player.goals === 1 ? 'goal' : 'goals'}</div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+
+                        {dynamicTopScorers.length === 0 && (
+                            <div className="text-center py-6 text-gray-500 text-sm">
+                                No goals have been scored yet in the tournament.
+                            </div>
+                        )}
+                
+                    </div>
+                </div>
+            </section>
+        );
+    }
 
     return (
         <>
