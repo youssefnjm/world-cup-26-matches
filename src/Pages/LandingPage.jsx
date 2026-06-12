@@ -6,7 +6,9 @@ import { Link } from 'react-router-dom';
 
 
 export default function LandingPage() {
-    const { isLoading, groups, teams, matches } = useWC26();
+    const { isLoading, groups, teams, matches, stadiums } = useWC26();
+    const now = new Date();
+    const today = new Date().toLocaleDateString("en-CA");
 
     const Hero = () => {
         return (
@@ -54,7 +56,7 @@ export default function LandingPage() {
             </section>
         );
     }
-    
+
     const Ticker = () => {
         const today = new Date().toISOString().split("T")[0];
 
@@ -76,14 +78,66 @@ export default function LandingPage() {
             </div>
         );
     }
+
+    const Hosts = () => {
+        return (
+            <section className="hosts-section" id="hosts">
+                <div className="container">
+                    <div className="section-header">
+                        <div>
+                            <div className="section-eyebrow">3 Nations · 16 Cities</div>
+                            <h2 className="section-title">Host Countries</h2>
+                            <p className="section-subtitle">For the first time in history, three nations share the honor of hosting football's greatest tournament.</p>
+                        </div>
+                    </div>
+                
+                    <div className="hosts-grid">
+                    <div className="host-card">
+                        <div className="host-banner usa">🇺🇸</div>
+                        <div className="host-body">
+                        <div className="host-name">United States</div>
+                        <div className="host-detail">The primary host nation with 11 venues across the country, from the iconic MetLife Stadium in New Jersey to SoFi Stadium in Los Angeles. Hosting the final at MetLife.</div>
+                        <div className="host-stat">
+                            <div className="host-stat-item">⚽ <span>60</span> matches</div>
+                            <div className="host-stat-item">🏟️ <span>11</span> venues</div>
+                            <div className="host-stat-item">🏆 <span>Final host</span></div>
+                        </div>
+                        </div>
+                    </div>
+                
+                    <div className="host-card">
+                        <div className="host-banner canada">🇨🇦</div>
+                        <div className="host-body">
+                        <div className="host-name">Canada</div>
+                        <div className="host-detail">Three cities — Toronto, Vancouver, and Edmonton — bring Canadian football culture to the world stage. BMO Field and BC Place are among the marquee venues.</div>
+                        <div className="host-stat">
+                            <div className="host-stat-item">⚽ <span>13</span> matches</div>
+                            <div className="host-stat-item">🏟️ <span>3</span> venues</div>
+                        </div>
+                        </div>
+                    </div>
+                
+                    <div className="host-card">
+                        <div className="host-banner mexico">🇲🇽</div>
+                        <div className="host-body">
+                        <div className="host-name">Mexico</div>
+                        <div className="host-detail">The legendary Estadio Azteca hosts matches for the third time — a World Cup first — alongside Guadalajara and Monterrey. A return to football's holy ground.</div>
+                        <div className="host-stat">
+                            <div className="host-stat-item">⚽ <span>13</span> matches</div>
+                            <div className="host-stat-item">🏟️ <span>3</span> venues</div>
+                            <div className="host-stat-item">🌟 <span>Historic</span></div>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </section>
+        );
+    }
     
     const Schedule = () => {
-        const now = new Date();
-        const today = now.toISOString().split("T")[0];
-        
         const todayMatches = matches?.matches?.filter( (match) => match.date === today );
         
-
         const getMatchStatus = (match) => {
             const matchTime = match.time.split(" ")[0]; // "21:00 UTC+3" -> "21:00"
 
@@ -144,13 +198,13 @@ export default function LandingPage() {
                                     <div className="team-flag">
                                         {teams.find(team => team.name === ele.team1)?.flag_icon}
                                     </div>
-                                    {ele.team1}
+                                    <p className='text-white'>{ele.team1}</p>
                                 </div>
 
-                                <div className="score-vs">vs</div>
+                                <div className="score-vs" style={{ color: "white" }} >vs</div>
 
                                 <div className="match-team right">
-                                    {ele.team2}
+                                    <p className='text-white'>{ele.team2}</p>
                                     <div className="team-flag">
                                         {teams.find(team => team.name === ele.team2)?.flag_icon}
                                     </div>
@@ -172,11 +226,11 @@ export default function LandingPage() {
                                     <div className="team-flag">
                                         {teams.find(team => team.name === ele.team1)?.flag_icon}
                                     </div>
-                                    {ele.team1}
+                                    <p className='text-white'>{ele.team1}</p>
                                 </div>
 
                                 <div className="match-score">
-                                    <div className="score-display">
+                                    <div className="score-display" style={{ color: "white" }} >
                                         {ele.score?.ft?.[0] ?? 0} – {ele.score?.ft?.[1] ?? 0}
                                     </div>
 
@@ -184,7 +238,7 @@ export default function LandingPage() {
                                 </div>
 
                                 <div className="match-team right">
-                                    {ele.team2}
+                                    <p className='text-white'>{ele.team2}</p>
                                     <div className="team-flag">
                                         {teams.find(team => team.name === ele.team2)?.flag_icon}
                                     </div>
@@ -206,11 +260,11 @@ export default function LandingPage() {
                                     <div className="team-flag">
                                         {teams.find(team => team.name === ele.team1)?.flag_icon}
                                     </div>
-                                    {ele.team1}
+                                    <p className='text-white'>{ele.team1}</p>
                                 </div>
 
                                 <div className="match-score">
-                                    <div className="score-display">
+                                    <div className="score-display" style={{ color: "white" }} >
                                         {ele.score?.ft?.[0]} – {ele.score?.ft?.[1]}
                                     </div>
 
@@ -218,7 +272,7 @@ export default function LandingPage() {
                                 </div>
 
                                 <div className="match-team right">
-                                    {ele.team2}
+                                    <p className='text-white'>{ele.team2}</p>
                                     <div className="team-flag">
                                         {teams.find(team => team.name === ele.team2)?.flag_icon}
                                     </div>
@@ -232,62 +286,6 @@ export default function LandingPage() {
                 </div>
             </section>
         </>)
-    }
-
-    const Hosts = () => {
-        return (
-            <section className="hosts-section" id="hosts">
-                <div className="container">
-                    <div className="section-header">
-                    <div>
-                        <div className="section-eyebrow">3 Nations · 16 Cities</div>
-                        <h2 className="section-title">Host Countries</h2>
-                        <p className="section-subtitle">For the first time in history, three nations share the honor of hosting football's greatest tournament.</p>
-                    </div>
-                    </div>
-                
-                    <div className="hosts-grid">
-                    <div className="host-card">
-                        <div className="host-banner usa">🇺🇸</div>
-                        <div className="host-body">
-                        <div className="host-name">United States</div>
-                        <div className="host-detail">The primary host nation with 11 venues across the country, from the iconic MetLife Stadium in New Jersey to SoFi Stadium in Los Angeles. Hosting the final at MetLife.</div>
-                        <div className="host-stat">
-                            <div className="host-stat-item">⚽ <span>60</span> matches</div>
-                            <div className="host-stat-item">🏟️ <span>11</span> venues</div>
-                            <div className="host-stat-item">🏆 <span>Final host</span></div>
-                        </div>
-                        </div>
-                    </div>
-                
-                    <div className="host-card">
-                        <div className="host-banner canada">🇨🇦</div>
-                        <div className="host-body">
-                        <div className="host-name">Canada</div>
-                        <div className="host-detail">Three cities — Toronto, Vancouver, and Edmonton — bring Canadian football culture to the world stage. BMO Field and BC Place are among the marquee venues.</div>
-                        <div className="host-stat">
-                            <div className="host-stat-item">⚽ <span>13</span> matches</div>
-                            <div className="host-stat-item">🏟️ <span>3</span> venues</div>
-                        </div>
-                        </div>
-                    </div>
-                
-                    <div className="host-card">
-                        <div className="host-banner mexico">🇲🇽</div>
-                        <div className="host-body">
-                        <div className="host-name">Mexico</div>
-                        <div className="host-detail">The legendary Estadio Azteca hosts matches for the third time — a World Cup first — alongside Guadalajara and Monterrey. A return to football's holy ground.</div>
-                        <div className="host-stat">
-                            <div className="host-stat-item">⚽ <span>13</span> matches</div>
-                            <div className="host-stat-item">🏟️ <span>3</span> venues</div>
-                            <div className="host-stat-item">🌟 <span>Historic</span></div>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </section>
-        );
     }
     
     const Groups = () => {
@@ -313,7 +311,6 @@ export default function LandingPage() {
                                         </div>
                                         <table className="group-table">
                                             <thead><tr>
-                                                {/* <th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th> */}
                                                 <th>Team</th>
                                             </tr></thead>
                                             <tbody>
@@ -321,13 +318,12 @@ export default function LandingPage() {
                                                     return (
                                                         <tr key={key}>
                                                             <td>
-                                                                {key < 2 ? <div className="pos-dot qualify"></div> : <div className="pos-dot out"></div>}
+                                                                <div className={`pos-dot bg-gray-300`}></div>
                                                                 <span className="flag-sm">
                                                                     {teams.find((team) => team.name === eleName)?.flag_icon}
                                                                 </span>
                                                                 <span className="team-name-cell">{eleName}</span>
                                                             </td>
-                                                            {/* <td>2</td><td>1</td><td>1</td><td>0</td><td>+2</td><td className="pts-cell">4</td> */}
                                                         </tr>
                                                     );
                                                 })}
@@ -455,6 +451,117 @@ export default function LandingPage() {
         );
     }
 
+    const FeaturedMatches = () => {
+        
+        const FEATURED_TEAMS = {
+            Brazil: 10,
+            Argentina: 10,
+            France: 10,
+            England: 9,
+            Germany: 9,
+            Spain: 9,
+            Portugal: 8,
+            Netherlands: 8,
+            USA: 8,
+            Mexico: 8,
+            Morocco: 7,
+        };
+
+        const futureMatches = matches?.matches?.filter((match) => {
+            return match.date >= today;
+        });
+
+        const featuredMatch = futureMatches
+        ?.map((match) => ({
+            ...match,
+            scoreFeatured:
+                (FEATURED_TEAMS[match.team1] || 1) +
+                (FEATURED_TEAMS[match.team2] || 1),
+        }))
+        .sort((a, b) => {
+            // Higher priority first
+            if (b.scoreFeatured !== a.scoreFeatured) {
+                return b.scoreFeatured - a.scoreFeatured;
+            }
+
+            // If priorities are equal, show the closest upcoming match
+            const aDate = new Date(
+                `${a.date}T${a.time.split(" ")[0]}`
+            );
+
+            const bDate = new Date(
+                `${b.date}T${b.time.split(" ")[0]}`
+            );
+
+            return aDate - bDate;
+        });
+
+        console.log(featuredMatch);
+
+        
+        return (
+            <section className="featured-section" id="featured">
+                <div className="container">
+                    <div className="section-header">
+                        <div>
+                            <div className="section-eyebrow">Tonight's Spotlight</div>
+                            <h2 className="section-title">Featured Match</h2>
+                        </div>
+                    </div>
+                    {featuredMatch && (<>
+                    
+                        <div className="featured-card">
+                            {/* {featuredMatch} */}
+                            <div className="featured-team">
+                                <div className="featured-team-flag">{teams.find((team) => team.name === featuredMatch[0].team1)?.flag_icon}</div>
+                                <div className="featured-team-name">{featuredMatch[0].team1}</div>
+                            </div>
+                        
+                            <div className="featured-center">
+                                <div className="featured-badge">{featuredMatch[0].round}</div>
+                                <div className="featured-vs">VS</div>
+                                <div className="featured-info">
+                                    <strong>{(featuredMatch[0].date === today) ? "today" : featuredMatch[0].date } · {featuredMatch[0].time}</strong>
+                                    {featuredMatch[0].ground}<br/>
+                                    Stadiums: {stadiums && stadiums.stadiums.find((ele) => ele.city == featuredMatch[0].ground)?.name} · 
+                                    Capacity: {stadiums && stadiums.stadiums.find((ele) => ele.city == featuredMatch[0].ground)?.capacity}
+                                </div>
+                                <a href="#" className="btn-primary" style={{fontSize: "15px",  padding: "12px 28px", }} >Watch Live →</a>
+                            </div>
+                        
+                            <div className="featured-team">
+                                <div className="featured-team-flag">{teams.find((team) => team.name === featuredMatch[0].team2)?.flag_icon}</div>
+                                <div className="featured-team-name">{featuredMatch[0].team2}</div>
+                            </div>
+                        </div>
+
+                        {featuredMatch && (<>
+                            <div className="upcoming-grid">
+                                {featuredMatch.map((ele, key) => {
+                                    if (key == 0 || key >= 4) return null;
+
+                                    return (
+                                        <div key={key} className="upcoming-card">
+                                            <div className="upcoming-teams">
+                                                <span>{teams.find((team) => team.name === ele.team1)?.flag_icon}</span>
+                                                <span>{ele.team1}</span>
+                                                <span className="upcoming-sep">—</span>
+                                                <span>{ele.team2}</span>
+                                                <span>{teams.find((team) => team.name === ele.team2)?.flag_icon}</span>
+                                            </div>
+                                            <div className="upcoming-meta">{ele.round} · {(ele.date == today) ? "today" : ele.date } · {ele.time} · {ele.ground}</div>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </>)}
+                    </>)}
+                </div>
+            </section>
+        );
+    }
+
+
     return (
         <>
             {isLoading 
@@ -481,74 +588,7 @@ export default function LandingPage() {
                 <Groups />
         
                 {/* <!-- FEATURED MATCH --> */}
-                {/* <section className="featured-section" id="featured">
-                    <div className="container">
-                        <div className="section-header">
-                        <div>
-                            <div className="section-eyebrow">Tonight's Spotlight</div>
-                            <h2 className="section-title">Featured Match</h2>
-                        </div>
-                        </div>
-                    
-                        <div className="featured-card">
-                        <div className="featured-team">
-                            <div className="featured-team-flag">🇫🇷</div>
-                            <div className="featured-team-name">France</div>
-                            <div className="featured-team-rank">FIFA Rank #2 · Group B Leaders</div>
-                        </div>
-                    
-                        <div className="featured-center">
-                            <div className="featured-badge">Group Stage · Group B</div>
-                            <div className="featured-vs">VS</div>
-                            <div className="featured-info">
-                            <strong>Tonight · 20:00 ET</strong>
-                            SoFi Stadium · Los Angeles, CA<br/>
-                            Capacity: 70,240 · Referee: Szymon Marciniak
-                            </div>
-                            <a href="#" className="btn-primary" style={{fontSize: "15px",  padding: "12px 28px", }} >Watch Live →</a>
-                        </div>
-                    
-                        <div className="featured-team">
-                            <div className="featured-team-flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</div>
-                            <div className="featured-team-name">England</div>
-                            <div className="featured-team-rank">FIFA Rank #4 · 2nd Place Group B</div>
-                        </div>
-                        </div>
-                    
-                        <div className="upcoming-grid">
-                        <div className="upcoming-card">
-                            <div className="upcoming-teams">
-                            <span>🇩🇪</span>
-                            <span>Germany</span>
-                            <span className="upcoming-sep">—</span>
-                            <span>Japan</span>
-                            <span>🇯🇵</span>
-                            </div>
-                            <div className="upcoming-meta">Jun 12 · 17:00 ET · Group E · MetLife Stadium</div>
-                        </div>
-                        <div className="upcoming-card">
-                            <div className="upcoming-teams">
-                            <span>🇲🇦</span>
-                            <span>Morocco</span>
-                            <span className="upcoming-sep">—</span>
-                            <span>Senegal</span>
-                            <span>🇸🇳</span>
-                            </div>
-                            <div className="upcoming-meta">Jun 13 · 14:00 ET · Group F · AT&T Stadium</div>
-                        </div>
-                        <div className="upcoming-card">
-                            <div className="upcoming-teams">
-                            <span>🇵🇹</span>
-                            <span>Portugal</span>
-                            <span className="upcoming-sep">—</span>
-                            <span>Belgium</span>
-                            <span>🇧🇪</span>
-                            </div>
-                            <div className="upcoming-meta">Jun 13 · 20:00 ET · Group B · Levi's Stadium</div>
-                        </div>
-                        </div>
-                    </div>
-                </section> */}
+                <FeaturedMatches />
         
                 {/* <!-- STATS --> */}
                 <Stats />

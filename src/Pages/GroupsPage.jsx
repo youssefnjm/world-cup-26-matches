@@ -101,8 +101,8 @@ export default function AllGroups() {
                                 </tbody>
                             </table>
                             <div className="group-footer">
-                                <div className="next-match">Next: <strong>USA vs Canada</strong> · Jun 15</div>
-                                <a href="#" className="group-link">Fixtures →</a>
+                                {/* <div className="next-match">Next: <strong>USA vs Canada</strong> · Jun 15</div>
+                                <a href="#" className="group-link">Fixtures →</a> */}
                             </div>
                         </div>
                     );

@@ -20,29 +20,34 @@ export const WC26Provider = ({ children }) => {
 	const getAllData = async () => {
 		const teams = await worldCupApi('2026/worldcup.teams.json');
 		if (teams) {
-			console.log(teams.data);
+			console.log("-----------teams:");
+			console.log(teams);
 			setTeams(teams.data);
 		}
 		const stadiums = await worldCupApi('2026/worldcup.stadiums.json');
 		if (stadiums) {
+			console.log("-----------stadium:");
 			console.log(stadiums);
 			setStadiums(stadiums.data);
 		}
 		
 		const squades = await worldCupApi('2026/worldcup.squads.json');
 		if (squades) {
+			console.log("-----------squades:");
 			console.log(squades);
 			setSquades(squades.data);
 		}
 
 		const groups = await worldCupApi('2026/worldcup.groups.json');
 		if (groups) {
+			console.log("-----------groups:");
 			console.log(groups);
 			setGroups(groups.data);
 		}
 
 		const matches = await worldCupApi('2026/worldcup.json');
 		if (matches) {
+			console.log("-----------matches:");
 			console.log(matches);
 			setMatches(matches.data);
 		}
