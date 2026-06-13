@@ -6,7 +6,7 @@ export default function Schedule() {
 
     const [currentTime, setCurrentTime] = useState(new Date());
     useEffect(() => {
-        const timer = setInterval(() => setCurrentTime(new Date()), 60000); // refresh status every minute
+        const timer = setInterval(() => setCurrentTime(new Date()), 60000);
         return () => clearInterval(timer);
     }, []);
 
@@ -47,14 +47,14 @@ export default function Schedule() {
         }
 
         const matchStart = getMatchDateTimeObject(match.date, match.time);
-        const matchEnd = new Date(matchStart.getTime() + 2 * 60 * 60 * 1000); // roughly 2 hours duration
+        const matchEnd = new Date(matchStart.getTime() + 2 * 60 * 60 * 1000); 
 
         if (currentTime < matchStart) {
             return { label: "Upcoming", className: "status-upcoming" };
         } else if (currentTime >= matchStart && currentTime <= matchEnd) {
-            return { label: "Live", className: "status-live" }; // Ongoing
+            return { label: "Live", className: "status-live" };
         } else {
-            return { label: "Finished", className: "status-finished" }; // End
+            return { label: "Finished", className: "status-finished" };
         }
     };
 
@@ -134,7 +134,7 @@ export default function Schedule() {
         timeZone: "Africa/Casablanca",
     });
     
-    const [dateSelected, setDateSelected] = useState("00-00-0000"); // Default to showing 'All Days' safely
+    const [dateSelected, setDateSelected] = useState("00-00-0000");
 
     if (isLoading) {
         return <div className="pt-20 text-center text-white">Loading tournament data...</div>;

@@ -8,11 +8,9 @@ export default function AllGroups() {
     const allMatches = matches?.matches || [];
     const allTeams = teams || [];
 
-    // --- LIVE ENGINE: CALC STATS FOR EACH TEAM ---
     const getGroupStandings = () => {
         const standings = {};
 
-        // 1. Initialize stats for every team
         allTeams.forEach((team) => {
             standings[team.name] = {
                 name: team.name,
@@ -27,11 +25,10 @@ export default function AllGroups() {
                 ga: 0,
                 gd: 0,
                 pts: 0,
-                form: [] // Track recent match results ('W', 'D', 'L')
+                form: []
             };
         });
 
-        // 2. Compute statistics using completed matches
         allMatches.forEach((match) => {
             if (match.score && match.score.ft) {
                 const [score1, score2] = match.score.ft;
@@ -70,7 +67,6 @@ export default function AllGroups() {
             }
         });
 
-        // 3. Post-process Goal Difference
         Object.keys(standings).forEach((name) => {
             standings[name].gd = standings[name].gf - standings[name].ga;
         });
@@ -80,10 +76,8 @@ export default function AllGroups() {
 
     const teamStatsMap = getGroupStandings();
 
-    // Filter and sort groups dynamically based on context data
     const parsedGroups = groups?.groups || [];
 
-    // Filter out groups according to user tab selection
     const displayedGroups = parsedGroups.filter((g) => {
         if (groupName === "ALL") return true;
         const currentGroupChar = g.name.split(" ")[1] || g.name;
@@ -93,7 +87,6 @@ export default function AllGroups() {
     return (
         <>
             <div className="pt-10 w-full bg-black"></div>
-            {/* */}
             <div className="page-hero" >
                 <div className="container">
                     <div className="page-hero-inner">
@@ -123,7 +116,6 @@ export default function AllGroups() {
                 </div>
             </div>
 
-            {/* */}
             <div className="filter-bar">
                 <div className="filter-inner">
                     <button className={`filter-btn ${groupName === "ALL" ? "active" : ""}`} onClick={() => setGroupName("ALL")}>All Groups</button>
@@ -139,7 +131,6 @@ export default function AllGroups() {
                 </div>
             </div>
 
-            {/* */}
             <div className="groups-page">
                 <div className="container">
                     <div className="groups-layout" id="groupsGrid">
@@ -147,7 +138,6 @@ export default function AllGroups() {
                         {displayedGroups.map((groupItem, key) => {
                             const groupChar = groupItem.name.split(" ")[1] || groupItem.name;
 
-                            // Gather and sort the team objects inside this specific group
                             const sortedGroupTeams = groupItem.teams
                                 .map((teamName) => teamStatsMap[teamName] || {
                                     name: teamName, fifa_code: teamName.substring(0,3).toUpperCase(), flag_icon: "🏳️",
@@ -159,7 +149,6 @@ export default function AllGroups() {
                                     return b.gf - a.gf;
                                 });
 
-                            // Calculate total completed games in this group to show on the badge
                             const totalPlayedInGroup = sortedGroupTeams.reduce((acc, t) => acc + t.played, 0) / 2;
 
                             return (
@@ -186,12 +175,10 @@ export default function AllGroups() {
                                         </thead>
                                         <tbody>
                                             {sortedGroupTeams.map((team, idx) => {
-                                                // Retain original conditional row highlights based on ranking position
                                                 let qualificationClass = "out-row";
-                                                if (idx < 2) qualificationClass = "qualify-row"; // top 2 direct
-                                                else if (idx === 2) qualificationClass = "maybe-row"; // 3rd place checks
+                                                if (idx < 2) qualificationClass = "qualify-row";
+                                                else if (idx === 2) qualificationClass = "maybe-row";
 
-                                                // Pad form array to match your exactly layout visualizer
                                                 const displayForm = [...team.form, "-", "-", "-"].slice(0, 3);
 
                                                 return (

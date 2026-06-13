@@ -138,7 +138,6 @@ export default function LandingPage() {
     const Schedule = () => {
         const [now, setNow] = useState(new Date());
 
-        // Tick the clock every minute to track live matches reactively
         useEffect(() => {
             const timer = setInterval(() => setNow(new Date()), 60000);
             return () => clearInterval(timer);
@@ -147,7 +146,6 @@ export default function LandingPage() {
         const allMatches = matches?.matches || [];
         const allTeams = teams || [];
 
-        // Helper: Safely calculate full Date Object using data strings and original offsets
         const getMatchDateTimeObject = (dateStr, timeStr) => {
             if (!timeStr) return new Date(`${dateStr}T00:00:00Z`);
             try {
@@ -175,31 +173,27 @@ export default function LandingPage() {
             });
         };
 
-        // 1. CALCULATE STATE DYNAMICALLY (upcoming, ongoing, finished)
         const getMatchStatus = (match) => {
-            // If an absolute finished flag or full-time score array exists, override directly
             if (match.score && match.score.ft) {
                 return "finished";
             }
 
             const kickoff = getMatchDateTimeObject(match.date, match.time);
-            const end = new Date(kickoff.getTime() + 120 * 60 * 1000); // 2 hours duration
+            const end = new Date(kickoff.getTime() + 120 * 60 * 1000);
 
             if (now < kickoff) {
                 return "upcoming";
             }
             if (now >= kickoff && now < end) {
-                return "ongoing"; // LIVE
+                return "ongoing";
             }
-            return "finished"; // FT
+            return "finished";
         };
 
-        // Get current calendar day string mapped to Morocco's timeline (e.g., "2026-06-12")
         const todayMoroccoString = now.toLocaleDateString("en-CA", {
             timeZone: "Africa/Casablanca",
         });
 
-        // 2. FIXED TODAY FILTER: Filter matches that fall into TODAY on the Moroccan Calendar
         const todayMatches = allMatches.filter((match) => {
             const matchDateObj = getMatchDateTimeObject(match.date, match.time);
             const matchMoroccoDateStr = matchDateObj.toLocaleDateString('en-CA', {
@@ -208,7 +202,6 @@ export default function LandingPage() {
             return matchMoroccoDateStr === todayMoroccoString;
         });
 
-        // 3. Split matches cleanly by calculated state
         const upcomingMatches = todayMatches.filter(match => getMatchStatus(match) === "upcoming");
         const ongoingMatches = todayMatches.filter(match => getMatchStatus(match) === "ongoing");
         const finishedMatches = todayMatches.filter(match => getMatchStatus(match) === "finished");
@@ -236,11 +229,9 @@ export default function LandingPage() {
                     
                         <div className="matches-list">
                     
-                            {/* 1. UPCOMING MATCHES */}
                             {upcomingMatches.map((ele, key) => (
                                 <div key={`up-${key}`} className="match-row">
                                     <div className="match-date-col">
-                                        {/* Displays formatted Morocco kickoff hour */}
                                         <strong>{convertToMoroccoTime(ele.date, ele.time)}</strong>
                                         {ele.round}
                                     </div>
@@ -265,7 +256,6 @@ export default function LandingPage() {
                                 </div>
                             ))}
 
-                            {/* 2. ONGOING / LIVE MATCHES */}
                             {ongoingMatches.map((ele, key) => (
                                 <div key={`live-${key}`} className="match-row">
                                     <div className="match-date-col">
@@ -298,7 +288,6 @@ export default function LandingPage() {
                                 </div>
                             ))}
 
-                            {/* 3. FINISHED MATCHES */}
                             {finishedMatches.map((ele, key) => (
                                 <div key={`fin-${key}`} className="match-row">
                                     <div className="match-date-col">
@@ -331,7 +320,6 @@ export default function LandingPage() {
                                 </div>
                             ))}
 
-                            {/* Empty State fallback if no games are scheduled for today */}
                             {todayMatches.length === 0 && (
                                 <div className="text-center py-10 text-gray-400">
                                     No matches scheduled for today.
@@ -511,56 +499,46 @@ export default function LandingPage() {
         const allMatches = matches?.matches || [];
         const allTeams = teams || [];
 
-        // --- AUTOMATED STATISTICS & METRICS ENGINE ---
         const completedMatches = allMatches.filter(match => match.score && match.score.ft);
         const totalMatchesPlayed = completedMatches.length;
 
         let totalGoalsScored = 0;
         let hatTricksCount = 0;
         const hatTrickPlayers = new Set();
-        const scorerRegistry = {}; // Format: { "Player Name": { team: "TeamName", goals: X } }
+        const scorerRegistry = {};
 
         completedMatches.forEach((match) => {
-            // 1. Accumulate Total Goals from score array safely
             const [score1, score2] = match.score.ft;
             totalGoalsScored += (score1 || 0) + (score2 || 0);
 
-            // Track goals per player specifically for this match to detect hat-tricks
             const matchPlayerGoals = {};
 
-            // Process scorers for Team 1
             if (Array.isArray(match.goals1)) {
                 match.goals1.forEach((goal) => {
                     if (!goal.name) return;
                     
-                    // Absolute Tournament Standings Registry
                     if (!scorerRegistry[goal.name]) {
                         scorerRegistry[goal.name] = { team: match.team1, goals: 0 };
                     }
                     scorerRegistry[goal.name].goals += 1;
 
-                    // Match specific registry for hat-trick verification
                     matchPlayerGoals[goal.name] = (matchPlayerGoals[goal.name] || 0) + 1;
                 });
             }
 
-            // Process scorers for Team 2
             if (Array.isArray(match.goals2)) {
                 match.goals2.forEach((goal) => {
                     if (!goal.name) return;
 
-                    // Absolute Tournament Standings Registry
                     if (!scorerRegistry[goal.name]) {
                         scorerRegistry[goal.name] = { team: match.team2, goals: 0 };
                     }
                     scorerRegistry[goal.name].goals += 1;
 
-                    // Match specific registry for hat-trick verification
                     matchPlayerGoals[goal.name] = (matchPlayerGoals[goal.name] || 0) + 1;
                 });
             }
 
-            // Check if any player scored 3 or more goals in this match
             Object.entries(matchPlayerGoals).forEach(([playerName, goalsInMatch]) => {
                 if (goalsInMatch >= 3) {
                     hatTricksCount += 1;
@@ -573,8 +551,6 @@ export default function LandingPage() {
             ? (totalGoalsScored / totalMatchesPlayed).toFixed(1) 
             : "0.0";
 
-        // 2. SORT TOP SCORERS DYNAMICALLY
-        // Convert registry object to an array and sort descending by goal totals
         const dynamicTopScorers = Object.entries(scorerRegistry)
             .map(([name, data]) => ({
                 name,
@@ -582,15 +558,13 @@ export default function LandingPage() {
                 goals: data.goals
             }))
             .sort((a, b) => b.goals - a.goals)
-            .slice(0, 5); // Take the top 5 players
+            .slice(0, 5);
 
-        // --- MANUAL ADJUSTMENTS (For stats not tracked in raw JSON) ---
         const staticCardMetrics = {
             yellowCards: 142, 
             redCards: 8
         };
 
-        // Helper: Safely grab national team flags out of Context
         const getTeamFlag = (teamName) => {
             const found = allTeams.find(t => t.name.toLowerCase() === teamName.toLowerCase());
             return found ? found.flag_icon : "🏳️";
@@ -612,7 +586,6 @@ export default function LandingPage() {
                     </div>
                 
                     <div className="stats-grid">
-                        {/* TOTAL GOALS CARD (DYNAMIC) */}
                         <div className="stat-card">
                             <div className="stat-card-icon">⚽</div>
                             <div className="stat-card-num">{totalGoalsScored}</div>
@@ -622,7 +595,6 @@ export default function LandingPage() {
                             </div>
                         </div>
 
-                        {/* HAT-TRICKS CARD (DYNAMIC) */}
                         <div className="stat-card">
                             <div className="stat-card-icon">🎯</div>
                             <div className="stat-card-num">{hatTricksCount}</div>
@@ -631,7 +603,6 @@ export default function LandingPage() {
                         </div>
                     </div>
                 
-                    {/* TOP SCORERS SECTION (DYNAMIC) */}
                     <div className="top-scorers">
                         <div className="scorers-header">
                             <div className="scorers-title">Top Scorers</div>
