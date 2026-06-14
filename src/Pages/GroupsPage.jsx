@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useWC26 } from "../Context/WC26";
+import { useNavigate } from "react-router-dom";
 
 export default function AllGroups() {
+    const navigate = useNavigate();
     const [ groupName, setGroupName ] = useState("ALL");
     const { groups, teams, matches } = useWC26();
 
@@ -182,7 +184,7 @@ export default function AllGroups() {
                                                 const displayForm = [...team.form, "-", "-", "-"].slice(0, 3);
 
                                                 return (
-                                                    <tr className={qualificationClass} key={idx}>
+                                                    <tr className={qualificationClass} key={idx} onClick={() => navigate(`/TeamsDetails/${team.name}`) }>
                                                         <td className="team-cell">
                                                             <div className="team-cell-inner">
                                                                 <span className="flag-sm">{team.flag_icon}</span>

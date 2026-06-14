@@ -388,22 +388,74 @@ export default function LandingPage() {
     const FeaturedMatches = () => {
         
         const FEATURED_TEAMS = {
+            // Global giants
             Brazil: 10,
             Argentina: 10,
             France: 10,
+        
+            // European heavyweights
             England: 9,
             Germany: 9,
             Spain: 9,
+            Italy: 9,
+        
+            // Consistently strong contenders
             Portugal: 8,
             Netherlands: 8,
+            Belgium: 8,
+            Croatia: 8,
+            Uruguay: 8,
+        
+            // Large fanbases / host nations
+            "United States": 8,
             USA: 8,
             Mexico: 8,
+            Canada: 7,
+        
+            // Emerging and regional powers
             Morocco: 7,
+            Japan: 7,
+            "South Korea": 7,
+            Colombia: 7,
+            Senegal: 7,
+            Switzerland: 7,
+        
+            // Solid World Cup teams
+            Denmark: 6,
+            Serbia: 6,
+            Poland: 6,
+            Austria: 6,
+            Turkey: 6,
+            Ecuador: 6,
+            Egypt: 6,
+            Norway: 6,
+            Ghana: 6,
+            Algeria: 6,
+        
+            // Regular participants
+            Australia: 5,
+            Iran: 5,
+            Tunisia: 5,
+            Paraguay: 5,
+            Scotland: 5,
+            Czechia: 5,
+            "Saudi Arabia": 5,
+            "Ivory Coast": 5,
+            "Bosnia and Herzegovina": 5,
+            "New Zealand": 5,
+            Qatar: 5,
+        
+            // Default for any team not listed
+            // Use: FEATURED_TEAMS[team] || 3
         };
 
-        const futureMatches = matches?.matches?.filter((match) => {
-            return match.date >= today;
-        });
+        // console.log(today);
+        let futureMatches = matches.matches;
+        if (today < "2026-07-20") {
+            futureMatches = matches?.matches?.filter((match) => {
+                return match.date >= today;
+            });
+        }
 
         const featuredMatch = futureMatches
         ?.map((match) => ({

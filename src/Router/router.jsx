@@ -4,6 +4,7 @@ import AllGroups from '../Pages/GroupsPage';
 import MainLayout from '../layout/MainLayout';
 import NotFoundPage from '../Pages/NotFoundPage';
 import Scheduce from '../Pages/ScheducePage';
+import TeamDetailPage from '../Pages/TeamDetailsPage';
 
 export const router = createBrowserRouter([
 	{
@@ -21,6 +22,10 @@ export const router = createBrowserRouter([
 			{
 				path: "Groups",
 				element: <AllGroups />,
+			},
+			{
+				path: "TeamsDetails/:name",
+				element: <TeamDetailPage />,
 			},
 		],
 	},
